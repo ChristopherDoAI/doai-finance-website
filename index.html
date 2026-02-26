@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DoAI Finance</title>
+
+  <!-- ============================================================
+       FONTS — Space Grotesk (headings) + Inter (body)
+       Both are free Google Fonts. You can swap them at fonts.google.com
+       ============================================================ -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+
+    /* ============================================================
+       CUSTOMISATION ZONE — COLOURS
+       Change any colour value (the part after the colon).
+       Use coolors.co to browse and pick colours.
+       ============================================================ */
+    :root {
+      /* --- Page backgrounds --- */
+      --bg-deep:    #050B17;   /* Darkest background — used on most sections  */
+      --bg-mid:     #080F1F;   /* Slightly lighter — alternating sections      */
+
+      /* --- Cards / glass panels --- */
+      --surface:    rgba(255, 255, 255, 0.045);  /* Glass card fill             */
+      --border:     rgba(255, 255, 255, 0.09);   /* Glass card border           */
+      --border-hi:  rgba(255, 255, 255, 0.18);   /* Bright border on hover      */
+
+      /* --- Accent colours --- */
+      --teal:       #00C9A7;              /* Primary button / highlights        */
+      --teal-glow:  rgba(0, 201, 167, 0.22);  /* Soft glow behind teal elements */
+      --purple:     #818CF8;              /* Secondary accent — gradients       */
+      --purple-glow:rgba(129, 140, 248, 0.18);
+
+      /* --- Text --- */
+      --text:       #E8EEFF;              /* Main text (near-white)             */
+      --text-muted: rgba(232, 238, 255, 0.55); /* Secondary / body copy        */
+      --text-faint: rgba(232, 238, 255, 0.28); /* Placeholder / very subtle    */
+
+      /* --- Landscape image overlay ---
+           The first number in each rgba() is darkness (0 = clear, 255 = black).
+           Increase the last number (0.88) to make the image darker.            */
+      --overlay: linear-gradient(
+        150deg,
+        rgba(5, 11, 23, 0.90) 0%,
+        rgba(5, 11, 23, 0.68) 50%,
+        rgba(5, 11, 23, 0.88) 100%
+      );
+    }
+
+    /* ============================================================
+       CUSTOMISATION ZONE — FONTS
+       ============================================================ */
+    :root {
+      --font-head: 'Space Grotesk', sans-serif;  /* Headings      */
+      --font-body: 'Inter', sans-serif;           /* Body text     */
+    }
+
+    /* ============================================================
+       CUSTOMISATION ZONE — BACKGROUND IMAGE
+       The website uses a free Swiss Alps photo from Unsplash.
+       To use your OWN photo instead:
+         1. Put your image in the same folder as index.html
+         2. Replace the url(...) value in .hero-bg and
+            .testimonials-bg with: url('your-filename.jpg')
+       ============================================================ */
+
+    /* ============================================================
+       BASE — don't need to change anything below here
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Subtle dot-grid texture across the whole page */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.028) 1px, transparent 1px);
+      background-size: 30px 30px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin-inline: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    section { padding: 6rem 0; }
+
+    /* ---- Shared typography ---- */
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.75rem;
+    }
+    .label::before {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      background: var(--teal);
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* ---- Glass card ---- */
+    .glass {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      backdrop-filter: blur(14px);
+    }
+
+    /* ---- Buttons ---- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.9rem 2.2rem;
+      border-radius: 8px;
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s;
+      text-decoration: none;
+    }
+
+    .btn-teal {
+      background: var(--teal);
+      color: #050B17;
+      box-shadow: 0 0 28px var(--teal-glow), 0 4px 16px rgba(0,0,0,0.35);
+    }
+    .btn-teal:hover {
+      transform: translateY(-3px);
+      filter: brightness(1.1);
+      box-shadow: 0 0 50px var(--teal-glow), 0 8px 28px rgba(0,0,0,0.45);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border-hi);
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: var(--teal);
+      color: var(--teal);
+      transform: translateY(-3px);
+    }
+
+    /* ============================================================
+       SCROLL PROGRESS BAR (thin line at very top of page)
+       ============================================================ */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--teal), var(--purple));
+      z-index: 200;
+      transition: width 0.08s linear;
+    }
+
+    /* ============================================================
+       NAV
+       ============================================================ */
+    nav {
+      position: fixed;
+      top: 2px; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.25rem 0;
+      transition: background 0.4s, box-shadow 0.4s, border-color 0.4s;
+    }
+
+    nav.scrolled {
+      background: rgba(5, 11, 23, 0.88);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .nav-logo span { color: var(--teal); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--text);
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        position: absolute;
+        top: 100%; left: 0; right: 0;
+        background: rgba(5,11,23,0.97);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(20px);
+        padding: 1rem 0;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { display: block; padding: 0.8rem 5%; }
+    }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================
+       CUSTOMISATION: Edit headline, tagline, and button text below.
+       Replace "#" in the Book a Call button with your booking URL.
+       ============================================================ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background landscape image with dark overlay */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: var(--overlay),
+        url('Background.jpg');
+      background-size: cover;
+      background-position: center 40%;
+      will-change: transform;
+    }
+
+    /* Gradient bleed at the bottom into the next section */
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 35%;
+      background: linear-gradient(to bottom, transparent, var(--bg-deep));
+    }
+
+    /* Ambient glow blobs — purely decorative */
+    .hero-glow-1, .hero-glow-2 {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .hero-glow-1 {
+      width: 420px; height: 420px;
+      background: var(--teal-glow);
+      top: 15%; left: -80px;
+      animation: drift 8s ease-in-out infinite alternate;
+    }
+    .hero-glow-2 {
+      width: 340px; height: 340px;
+      background: var(--purple-glow);
+      bottom: 10%; right: -60px;
+      animation: drift 10s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes drift {
+      from { transform: translateY(0px); }
+      to   { transform: translateY(40px); }
+    }
+
+    /* Hero text */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 2rem;
+      max-width: 820px;
+    }
+
+    /* Animated entrance for hero elements */
+    .hero-content > * {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: hero-rise 0.8s ease forwards;
+    }
+    .hero-content > *:nth-child(1) { animation-delay: 0.2s; }
+    .hero-content > *:nth-child(2) { animation-delay: 0.4s; }
+    .hero-content > *:nth-child(3) { animation-delay: 0.6s; }
+    .hero-content > *:nth-child(4) { animation-delay: 0.8s; }
+
+    @keyframes hero-rise {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(0, 201, 167, 0.1);
+      border: 1px solid rgba(0, 201, 167, 0.28);
+      border-radius: 50px;
+      padding: 0.4rem 1.1rem;
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.75rem;
+    }
+
+    /* Pulsing green dot */
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--teal);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.4; transform: scale(0.6); }
+    }
+
+    .hero-headline {
+      font-family: var(--font-head);
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Gradient text for second line of headline */
+    .hero-headline .grad {
+      background: linear-gradient(90deg, var(--teal) 0%, var(--purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-tagline {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 580px;
+      margin-inline: auto;
+      margin-bottom: 2.75rem;
+      line-height: 1.8;
+    }
+
+    /* Centred CTA buttons */
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Scroll hint at bottom of hero */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-faint);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      z-index: 2;
+      animation: hero-rise 0.8s ease 1.2s forwards;
+      opacity: 0;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 36px;
+      background: linear-gradient(to bottom, var(--teal), transparent);
+      animation: scroll-pulse 2s ease-in-out infinite;
+    }
+    @keyframes scroll-pulse {
+      0%   { transform: scaleY(0); transform-origin: top; opacity: 1; }
+      50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+    }
+
+    /* ============================================================
+       ABOUT SECTION
+       ============================================================
+       CUSTOMISATION: Replace the text and bullet points.
+       To add your photo, see the CSS comment near .about-photo.
+       ============================================================ */
+    #about {
+      background: var(--bg-deep);
+    }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-photo-wrap { position: relative; }
+
+    /* Glow behind photo */
+    .about-photo-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      border-radius: 24px;
+      background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .about-photo {
+      width: 100%;
+      border-radius: 16px;
+      aspect-ratio: 4/5;
+      background: linear-gradient(135deg, rgba(0,201,167,0.12) 0%, rgba(129,140,248,0.1) 100%);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      position: relative;
+      overflow: hidden;
+      /* CUSTOMISATION: Uncomment below and change filename to add your photo */
+      /* background-image: url('YOUR_PHOTO.jpg'); background-size: cover; background-position: center; */
+    }
+
+    .about-badge {
+      position: absolute;
+      bottom: -1.25rem;
+      right: -1.25rem;
+      padding: 0.9rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .about-badge-icon { font-size: 1.5rem; }
+    .about-badge strong { display: block; font-size: 0.95rem; font-weight: 700; color: var(--teal); }
+    .about-badge span  { font-size: 0.72rem; color: var(--text-muted); }
+
+    .about-content .section-sub { max-width: 100%; }
+
+    .about-bullets {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin: 1.75rem 0 2rem;
+    }
+    .about-bullet {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+    .about-bullet::before {
+      content: '›';
+      color: var(--teal);
+      font-size: 1.2rem;
+      line-height: 1.3;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .about-photo { aspect-ratio: 1/1; max-width: 280px; margin-inline: auto; }
+      .about-badge { right: 0; }
+    }
+
+    /* ============================================================
+       SERVICES SECTION
+       ============================================================
+       CUSTOMISATION: Edit the service-name and service-desc text.
+       Change the emoji in service-icon to whatever you like.
+       ============================================================ */
+    #services {
+      background: var(--bg-mid);
+      position: relative;
+    }
+
+    /* Glowing top border */
+    #services::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 8%; right: 8%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal), transparent);
+    }
+
+    .services-header { margin-bottom: 3rem; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      padding: 2rem;
+      border-radius: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Inner glow on hover */
+    .service-card::after {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, var(--teal-glow) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+    .service-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(0, 201, 167, 0.35);
+      box-shadow: 0 16px 50px rgba(0,0,0,0.5), 0 0 30px var(--teal-glow);
+    }
+    .service-card:hover::after { opacity: 1; }
+
+    .service-icon {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0,201,167,0.14), rgba(129,140,248,0.1));
+      border: 1px solid rgba(0, 201, 167, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1.25rem;
+    }
+    .service-name {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+    .service-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.78;
+    }
+
+    @media (max-width: 900px) {
+      .services-grid { grid-template-columns: 1fr; max-width: 480px; }
+    }
+
+    /* ============================================================
+       TESTIMONIALS SECTION
+       ============================================================
+       CUSTOMISATION: Replace the placeholder quotes, names and roles.
+       The background uses the same Swiss Alps image.
+       ============================================================ */
+    #testimonials {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Landscape background — same image, different crop point */
+    .testimonials-bg {
+      position: absolute;
+      inset: 0;
+      background-image: var(--overlay),
+        url('Background.jpg');
+      background-size: cover;
+      background-position: center 70%;
+      background-attachment: fixed;
+    }
+    .testimonials-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(5, 11, 23, 0.55);
+    }
+
+    .testimonials-header { margin-bottom: 3rem; }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .testimonial-card {
+      padding: 2rem;
+      border-radius: 16px;
+      background: rgba(5, 11, 23, 0.62);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(18px);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(0, 201, 167, 0.32);
+    }
+
+    .t-stars { color: #FFD166; font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 1rem; }
+    .t-quote {
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: rgba(232, 238, 255, 0.82);
+      margin-bottom: 1.5rem;
+    }
+    .t-author { display: flex; align-items: center; gap: 0.75rem; }
+    .t-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal), var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; color: #050B17;
+      flex-shrink: 0;
+    }
+    .t-name  { font-weight: 600; font-size: 0.88rem; color: var(--text); }
+    .t-role  { font-size: 0.75rem; color: var(--text-muted); }
+
+    @media (max-width: 900px) {
+      .testimonials-grid { grid-template-columns: 1fr; max-width: 480px; }
+    }
+
+    /* ============================================================
+       CONTACT SECTION
+       ============================================================
+       CUSTOMISATION: Replace email, phone, and location.
+       Replace "#" in the button with your booking URL.
+       ============================================================ */
+    #contact {
+      background: var(--bg-deep);
+      position: relative;
+    }
+    #contact::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 8%; right: 8%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--purple), transparent);
+    }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-info .section-sub { max-width: 100%; margin-bottom: 2rem; }
+
+    .contact-detail {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .contact-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: rgba(0,201,167,0.07);
+      border: 1px solid rgba(0,201,167,0.16);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .c-label {
+      font-size: 0.7rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--text-muted); margin-bottom: 0.2rem;
+    }
+    .c-value { font-size: 0.95rem; font-weight: 600; color: var(--teal); }
+    .c-value a:hover { text-decoration: underline; }
+
+    /* Contact form */
+    .contact-form { padding: 2rem; }
+    .contact-form h3 {
+      font-family: var(--font-head);
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--text); margin-bottom: 1.5rem;
+    }
+    .form-group { margin-bottom: 1.1rem; }
+    .form-group label {
+      display: block; font-size: 0.8rem; font-weight: 600;
+      color: var(--text-muted); margin-bottom: 0.4rem; letter-spacing: 0.03em;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%; padding: 0.8rem 1rem;
+      border-radius: 8px; border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text); font-family: var(--font-body); font-size: 0.92rem;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--text-faint); }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-submit { width: 100%; padding: 0.9rem; font-size: 0.95rem; }
+    .form-success {
+      display: none; text-align: center; padding: 2rem;
+      color: var(--teal); font-weight: 600; font-size: 1.05rem;
+    }
+
+    @media (max-width: 768px) {
+      .contact-inner { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    footer {
+      background: #030710;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 2rem 0;
+      text-align: center;
+      font-size: 0.82rem;
+    }
+    footer strong { color: var(--text); }
+
+    /* ============================================================
+       SCROLL ANIMATIONS
+       Elements with class "fade-up" slide in as you scroll.
+       .stagger-1/2/3 delay siblings so they appear one after another.
+       ============================================================ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .fade-up.visible    { opacity: 1; transform: translateY(0); }
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.22s; }
+    .stagger-3 { transition-delay: 0.34s; }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Thin gradient progress bar at the very top -->
+  <div id="progress-bar"></div>
+
+
+  <!-- ============================================================
+       NAV — edit logo text here
+       ============================================================ -->
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo">DoAI <span>Finance</span></a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+
+  <!-- ============================================================
+       HERO SECTION
+       ============================================================
+       CUSTOMISATION:
+         hero-eyebrow  — small badge text above the headline
+         hero-headline — your main heading (second line gets the gradient)
+         hero-tagline  — supporting sentence
+         btn-teal href — replace "#" with your booking link (e.g. Calendly)
+       ============================================================ -->
+  <section id="hero">
+    <div class="hero-bg" id="heroBg"></div>
+
+    <!-- Decorative ambient glow blobs -->
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+
+    <div class="hero-content">
+
+      <div class="hero-eyebrow">AI-Powered Finance Assistant</div>
+
+      <h1 class="hero-headline">
+        Reclaim Your Time.<br/>
+        <span class="grad">Automate Your Finances.</span>
+      </h1>
+
+      <p class="hero-tagline">
+        DoAI Finance handles your invoicing, credit control, and email — powered by AI — so you can focus on growing your business.
+      </p>
+
+      <!-- ★ MAIN CTA — centred ★ -->
+      <!-- CUSTOMISATION: Replace "#" with your Calendly or booking URL -->
+      <div class="hero-cta">
+        <a href="https://calendly.com/christopher-do-doaifinance/30min" target="_blank" class="btn btn-teal">📅 Book a Free Discovery Call</a>
+        <a href="#services" class="btn btn-ghost">Explore Services</a>
+      </div>
+
+    </div>
+
+    <!-- Animated scroll indicator at the bottom -->
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      Scroll
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SERVICES SECTION
+       ============================================================ -->
+  <section id="services">
+    <div class="container">
+
+      <div class="services-header fade-up">
+        <p class="label">What I Do</p>
+        <h2 class="section-title">Services Designed to Save You Time</h2>
+        <p class="section-sub">Three focused services that remove the most time-consuming finance tasks from your plate — permanently.</p>
+      </div>
+
+      <div class="services-grid">
+
+        <!-- ---- SERVICE 1 ---- -->
+        <div class="service-card fade-up stagger-1">
+          <!-- CUSTOMISATION: Change the emoji to any you like -->
+          <div class="service-icon">📬</div>
+          <h3 class="service-name">Credit Control &amp; Automated Chasing</h3>
+          <p class="service-desc">Late payments hurt cash flow and take hours to chase manually. We set up automated, professional follow-up sequences that contact overdue customers at exactly the right time — by email, SMS, or letter — without you lifting a finger. You get paid faster, with less awkwardness.</p>
+        </div>
+
+        <!-- ---- SERVICE 2 ---- -->
+        <div class="service-card fade-up stagger-2">
+          <div class="service-icon">🧾</div>
+          <h3 class="service-name">Automated Invoicing</h3>
+          <p class="service-desc">Forget manually creating and sending invoices every month. We build an automated invoicing system tailored to your business — invoices go out on time, every time, with the right details. No more missed billing, no more chasing your own paperwork.</p>
+        </div>
+
+        <!-- ---- SERVICE 3 ---- -->
+        <div class="service-card fade-up stagger-3">
+          <div class="service-icon">✉️</div>
+          <h3 class="service-name">AI Email Management</h3>
+          <p class="service-desc">Your inbox shouldn't run your day. Using AI tools, we help filter, categorise, and draft responses to your finance-related emails — so you only see what matters. Supplier queries, payment confirmations, and reminders are handled swiftly and professionally.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       TESTIMONIALS SECTION
+       ============================================================
+       CUSTOMISATION: Replace placeholder quotes, names, and roles.
+       ============================================================ -->
+  <section id="testimonials">
+    <div class="testimonials-bg"></div>
+    <div class="container" style="position:relative;z-index:1;">
+
+      <div class="testimonials-header fade-up">
+        <p class="label">What Clients Say</p>
+      </div>
+
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card fade-up stagger-1">
+          <div class="t-stars">★★★★★</div>
+          <p class="t-quote">"Since DoAI Finance set up our automated invoicing, we've never missed a payment deadline. It's like having a full-time finance manager at a fraction of the cost."</p>
+          <div class="t-author">
+            <div class="t-avatar">JM</div>
+            <div>
+              <div class="t-name">James M.</div>
+              <div class="t-role">Director, [Company Name]</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-up stagger-2">
+          <div class="t-stars">★★★★★</div>
+          <p class="t-quote">"The credit control chasing system cut our average payment time from 60 days to 28 days. Our cash flow has completely transformed — I wish I'd done this sooner."</p>
+          <div class="t-author">
+            <div class="t-avatar">SR</div>
+            <div>
+              <div class="t-name">Sarah R.</div>
+              <div class="t-role">Founder, [Business Name]</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-up stagger-3">
+          <div class="t-stars">★★★★★</div>
+          <p class="t-quote">"I used to spend hours every week sorting finance emails. Now the AI handles the routine ones and I only deal with what actually needs me. Total game-changer."</p>
+          <div class="t-author">
+            <div class="t-avatar">TC</div>
+            <div>
+              <div class="t-name">Tom C.</div>
+              <div class="t-role">Sole Trader, [Trade]</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       CONTACT SECTION
+       ============================================================
+       CUSTOMISATION:
+         - Replace hello@doaifinance.com with your real email
+         - Replace the phone number with yours (or delete that block)
+         - Replace "#" with your booking URL
+       ============================================================ -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-inner">
+
+        <div class="contact-info fade-up">
+          <p class="label">Get in Touch</p>
+          <h2 class="section-title">Ready to Automate?</h2>
+          <p class="section-sub">Whether you have a quick question or you're ready to get started, I'd love to hear from you. Book a free 30-minute discovery call and let's see how I can help.</p>
+
+          <div class="contact-detail">
+            <div class="contact-icon">📧</div>
+            <div>
+              <div class="c-label">Email</div>
+              <!-- CUSTOMISATION: Replace with your email address -->
+              <div class="c-value"><a href="mailto:christopher.do@doaifinance.co.uk">christopher.do@doaifinance.co.uk</a></div>
+            </div>
+          </div>
+
+          <div class="contact-detail">
+            <div class="contact-icon">📞</div>
+            <div>
+              <div class="c-label">Phone</div>
+              <!-- CUSTOMISATION: Replace with your phone number -->
+              <div class="c-value">07923 904892</div>
+            </div>
+          </div>
+
+          <div class="contact-detail">
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="c-label">Location</div>
+              <div class="c-value">London, United Kingdom</div>
+            </div>
+          </div>
+
+          <!-- CUSTOMISATION: Replace "#" with your booking link -->
+          <a href="#" class="btn btn-teal" style="margin-top:1.5rem;">📅 Book a Free Discovery Call</a>
+        </div>
+
+        <div class="contact-form glass fade-up stagger-1">
+          <h3>Send a Message</h3>
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" name="name" placeholder="e.g. Jane Smith" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Your Email</label>
+              <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Tell me about your business and what you need help with…" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-teal form-submit">Send Message</button>
+          </form>
+          <div class="form-success" id="formSuccess">
+            ✅ Thanks for your message! I'll be in touch shortly.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer>
+    <div class="container">
+      <p>© <span id="year"></span> <strong>DoAI Finance</strong>. All rights reserved.</p>
+      <p style="margin-top:0.4rem; opacity:0.6; font-size:0.78rem;">
+        Bespoke finance automation solutions for UK businesses.
+      </p>
+    </div>
+  </footer>
+
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+
+    // ---- Auto footer year ----
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ---- Mobile hamburger menu ----
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+      });
+    });
+
+    // ---- Nav turns solid after scrolling down ----
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ---- Scroll progress bar ----
+    const bar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+      const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+      bar.style.width = pct + '%';
+    });
+
+    // ---- Parallax on hero background ----
+    // The hero image moves slightly slower than the page as you scroll,
+    // creating a depth effect.
+    const heroBg = document.getElementById('heroBg');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY < window.innerHeight * 1.5) {
+        heroBg.style.transform = `translateY(${window.scrollY * 0.3}px)`;
+      }
+    });
+
+    // ---- Scroll-in animations ----
+    // Any element with class "fade-up" slides into view as you scroll to it.
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ---- Contact form — show thank-you message ----
+    // NOTE: This doesn't send emails yet. To receive real messages,
+    // connect to Formspree (formspree.io) — free and takes 5 minutes.
+    document.getElementById('contactForm').addEventListener('submit', e => {
+      e.preventDefault();
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('formSuccess').style.display  = 'block';
+    });
+
+  </script>
+
+</body>
+</html>
