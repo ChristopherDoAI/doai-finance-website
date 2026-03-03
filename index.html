@@ -474,7 +474,7 @@
         const response = await fetch(WEBHOOK_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: "chris" }),
+          body: JSON.stringify({ message: text }),
           signal: controller.signal
         });
 
