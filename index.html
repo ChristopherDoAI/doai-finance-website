@@ -170,7 +170,6 @@
 
     .msg-row.user {
       justify-content: flex-end;
-      flex-direction: row-reverse;
       animation: msgSlideRight 0.4s ease forwards;
     }
 
@@ -458,6 +457,58 @@
       overflow: hidden;
     }
 
+    /* ---- Choice buttons ---- */
+    .choice-buttons {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      padding: 0.5rem 0;
+      opacity: 0;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .choice-btn {
+      padding: 0.65rem 1.25rem;
+      border-radius: 50px;
+      border: 1.5px solid #5EA4FF;
+      background: transparent;
+      color: #5EA4FF;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s;
+    }
+
+    .choice-btn:hover {
+      transform: scale(1.05);
+      background: rgba(94, 164, 255, 0.1);
+      box-shadow: 0 0 18px rgba(94, 164, 255, 0.3);
+    }
+
+    .choice-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* ---- Input locked state ---- */
+    .chat-input-area.locked {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+      .choice-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .choice-btn {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+      }
+    }
+
     /* ---- Footer ---- */
     .footer-text {
       font-size: 0.7rem;
@@ -626,8 +677,9 @@
     }
 
     /* ---- Add bot message ---- */
-    async function addBotMessage(text, animate) {
+    async function addBotMessage(text, animate, addToHistory) {
       if (animate === undefined) animate = true;
+      if (addToHistory === undefined) addToHistory = true;
       const row = document.createElement('div');
       row.className = 'msg-row bot';
       const bubble = document.createElement('div');
@@ -643,8 +695,92 @@
         bubble.textContent = text;
       }
 
-      conversationHistory.push({ role: 'assistant', content: text });
+      if (addToHistory) {
+        conversationHistory.push({ role: 'assistant', content: text });
+      }
       scrollToBottom();
+    }
+
+    /* ---- Show choice buttons ---- */
+    function showChoiceButtons() {
+      const container = document.createElement('div');
+      container.className = 'choice-buttons';
+      container.id = 'choiceButtons';
+
+      const btn1 = document.createElement('button');
+      btn1.className = 'choice-btn';
+      btn1.textContent = 'Use AI in my business';
+      btn1.addEventListener('click', function() { handleChoice("I'm looking to use AI automation in my business"); });
+
+      const btn2 = document.createElement('button');
+      btn2.className = 'choice-btn';
+      btn2.textContent = 'Explore a partnership';
+      btn2.addEventListener('click', function() { handleChoice("I'm looking for a partnership opportunity"); });
+
+      container.appendChild(btn1);
+      container.appendChild(btn2);
+      chatMessages.appendChild(container);
+      scrollToBottom();
+    }
+
+    /* ---- Handle choice button click ---- */
+    async function handleChoice(text) {
+      /* Hide buttons */
+      const btns = document.getElementById('choiceButtons');
+      if (btns) btns.remove();
+
+      /* Show user message */
+      addUserMessage(text);
+      showTypingIndicator();
+
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
+
+        const res = await fetch(CHAT_WEBHOOK, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: text,
+            history: [],
+            sessionId: sessionId
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeout);
+
+        const contentType = res.headers.get('content-type') || '';
+        let rawReply = '';
+
+        if (contentType.includes('application/json')) {
+          const json = await res.json();
+          rawReply = parseResponse(json, contentType);
+        } else {
+          rawReply = await res.text();
+        }
+
+        if (!rawReply || rawReply.trim() === '') {
+          rawReply = "I received your message but didn't get a response. Please try again.";
+        }
+
+        removeTypingIndicator();
+
+        const qc = checkQualifyComplete(rawReply);
+        await addBotMessage(sanitise(qc.displayText));
+
+        if (qc.found) {
+          showContactForm(qc.category, qc.summary);
+        }
+
+      } catch (err) {
+        removeTypingIndicator();
+        await addBotMessage("Sorry, I'm having a moment! Please try again.");
+      }
+
+      /* Unlock the input area */
+      document.querySelector('.chat-input-area').classList.remove('locked');
+      chatInput.focus();
     }
 
     /* ---- Add user message ---- */
@@ -872,18 +1008,17 @@
       }
     });
 
+    /* ---- Lock input on load ---- */
+    document.querySelector('.chat-input-area').classList.add('locked');
+
     /* ---- Opening message ---- */
     window.addEventListener('load', function() {
       setTimeout(function() {
         showTypingIndicator();
         setTimeout(async function() {
           removeTypingIndicator();
-          await addBotMessage("Hey there! I'm Heimer.");
-          showTypingIndicator();
-          setTimeout(async function() {
-            removeTypingIndicator();
-            await addBotMessage("Are you looking to leverage AI automation within your own business, or are you exploring a partnership to offer AI solutions to your clients?");
-          }, 800);
+          await addBotMessage("Hey there! I'm Heimer, DOAI Systems' AI assistant. I'm here to help you figure out how AI automation can work for your business.", true, false);
+          showChoiceButtons();
         }, 1200);
       }, 600);
     });
