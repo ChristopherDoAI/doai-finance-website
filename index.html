@@ -630,6 +630,7 @@
 
     const sessionId = crypto.randomUUID();
     const conversationHistory = [];
+    let threadId = null;
     const CHAT_WEBHOOK = 'https://hook.eu2.make.com/bpzpbd9raycpq4cyrref39lm4ecl1m8o';
     const FORM_WEBHOOK = 'https://hook.eu2.make.com/xp1ebxfakuig5p5r730e8k36oukw5ugx';
 
@@ -742,8 +743,8 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             message: text,
-            history: [],
-            sessionId: sessionId
+            sessionId: sessionId,
+            threadId: threadId
           }),
           signal: controller.signal
         });
@@ -843,6 +844,11 @@
       if (typeof data === 'string') return data;
 
       if (contentType && contentType.includes('application/json')) {
+        /* Extract threadId if present */
+        if (data.threadId) {
+          threadId = data.threadId;
+        }
+
         if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
           return data.choices[0].message.content;
         }
@@ -879,8 +885,8 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             message: text,
-            history: conversationHistory,
-            sessionId: sessionId
+            sessionId: sessionId,
+            threadId: threadId
           }),
           signal: controller.signal
         });
