@@ -76,8 +76,9 @@
       flex-shrink: 0;
     }
 
-    .logo {
-      color: var(--text);
+    .logo .accent {
+      color: #5EA4FF;
+      text-shadow: 0 0 12px rgba(94, 164, 255, 0.5), 0 0 30px rgba(94, 164, 255, 0.2);
     }
 
     /* ---- Heimer intro ---- */
@@ -93,8 +94,9 @@
     .heimer-intro .heimer-name {
       font-size: 0.85rem;
       font-weight: 600;
-      color: var(--accent);
+      color: #5EA4FF;
       letter-spacing: 0.05em;
+      text-shadow: 0 0 10px rgba(94, 164, 255, 0.4);
     }
 
     .heimer-intro .heimer-avatar-large {
@@ -158,15 +160,16 @@
       align-items: flex-end;
       gap: 0.6rem;
       opacity: 0;
+      width: 100%;
     }
 
     .msg-row.bot {
-      align-self: flex-start;
+      justify-content: flex-start;
       animation: msgSlideLeft 0.4s ease forwards;
     }
 
     .msg-row.user {
-      align-self: flex-end;
+      justify-content: flex-end;
       flex-direction: row-reverse;
       animation: msgSlideRight 0.4s ease forwards;
     }
@@ -286,7 +289,7 @@
       height: 44px;
       border-radius: 12px;
       border: none;
-      background: var(--accent);
+      background: #5EA4FF;
       color: #fff;
       cursor: pointer;
       display: flex;
@@ -294,12 +297,12 @@
       justify-content: center;
       flex-shrink: 0;
       transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-      box-shadow: 0 0 20px var(--accent-glow);
+      box-shadow: 0 0 20px rgba(94, 164, 255, 0.35);
     }
 
     .send-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 0 30px var(--accent-glow), 0 4px 16px rgba(0,0,0,0.3);
+      box-shadow: 0 0 30px rgba(94, 164, 255, 0.5), 0 4px 16px rgba(0,0,0,0.3);
     }
 
     .send-btn:active { transform: scale(0.95); }
@@ -504,7 +507,7 @@
 
   <div class="page">
 
-    <div class="logo">DOAI Systems</div>
+    <div class="logo">DOAI <span class="accent">Systems</span></div>
 
     <!-- Heimer intro avatar -->
     <div class="heimer-intro">
@@ -873,9 +876,14 @@
     window.addEventListener('load', function() {
       setTimeout(function() {
         showTypingIndicator();
-        setTimeout(function() {
+        setTimeout(async function() {
           removeTypingIndicator();
-          addBotMessage("Hey there! I'm Heimer, DOAI Systems' AI assistant. I'm here to help you figure out how AI automation can work for your business. Are you looking to automate something within your own business, or are you exploring a partnership to offer AI solutions to your clients?");
+          await addBotMessage("Hey there! I'm Heimer.");
+          showTypingIndicator();
+          setTimeout(async function() {
+            removeTypingIndicator();
+            await addBotMessage("Are you looking to leverage AI automation within your own business, or are you exploring a partnership to offer AI solutions to your clients?");
+          }, 800);
         }, 1200);
       }, 600);
     });
