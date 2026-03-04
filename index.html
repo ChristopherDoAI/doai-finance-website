@@ -754,12 +754,8 @@
         const contentType = res.headers.get('content-type') || '';
         let rawReply = '';
 
-        if (contentType.includes('application/json')) {
-          const json = await res.json();
-          rawReply = parseResponse(json, contentType);
-        } else {
-          rawReply = await res.text();
-        }
+        var resText = await res.text();
+        rawReply = parseResponse(resText, contentType);
 
         if (!rawReply || rawReply.trim() === '') {
           rawReply = "I received your message but didn't get a response. Please try again.";
@@ -840,27 +836,38 @@
     }
 
     /* ---- Parse webhook response ---- */
+    function extractReply(obj) {
+      if (obj.threadId) {
+        threadId = obj.threadId;
+      }
+      if (obj.reply) return obj.reply;
+      if (obj.choices && obj.choices[0] && obj.choices[0].message && obj.choices[0].message.content) {
+        return obj.choices[0].message.content;
+      }
+      if (obj.data) return typeof obj.data === 'string' ? obj.data : JSON.stringify(obj.data);
+      if (obj.response) return typeof obj.response === 'string' ? obj.response : JSON.stringify(obj.response);
+      if (obj.message) return typeof obj.message === 'string' ? obj.message : JSON.stringify(obj.message);
+      if (obj.text) return obj.text;
+      return null;
+    }
+
     function parseResponse(data, contentType) {
-      if (typeof data === 'string') return data;
-
-      if (contentType && contentType.includes('application/json')) {
-        /* Extract threadId if present */
-        if (data.threadId) {
-          threadId = data.threadId;
+      /* If data is a string, try parsing as JSON first */
+      if (typeof data === 'string') {
+        try {
+          var parsed = JSON.parse(data);
+          var reply = extractReply(parsed);
+          if (reply) return reply;
+          return data;
+        } catch (e) {
+          return data;
         }
-
-        if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
-          return data.choices[0].message.content;
-        }
-        if (data.reply) return data.reply;
-        if (data.data) return typeof data.data === 'string' ? data.data : JSON.stringify(data.data);
-        if (data.response) return typeof data.response === 'string' ? data.response : JSON.stringify(data.response);
-        if (data.message) return typeof data.message === 'string' ? data.message : JSON.stringify(data.message);
-        if (data.text) return data.text;
-        return JSON.stringify(data);
       }
 
-      return String(data);
+      /* Already an object */
+      var reply = extractReply(data);
+      if (reply) return reply;
+      return JSON.stringify(data);
     }
 
     /* ---- Send message ---- */
@@ -896,12 +903,8 @@
         const contentType = res.headers.get('content-type') || '';
         let rawReply = '';
 
-        if (contentType.includes('application/json')) {
-          const json = await res.json();
-          rawReply = parseResponse(json, contentType);
-        } else {
-          rawReply = await res.text();
-        }
+        var resText = await res.text();
+        rawReply = parseResponse(resText, contentType);
 
         if (!rawReply || rawReply.trim() === '') {
           rawReply = "I received your message but didn't get a response. Please try again.";
