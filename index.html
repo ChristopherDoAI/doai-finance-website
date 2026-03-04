@@ -959,22 +959,49 @@
     }
 
     function parseResponse(data, contentType) {
-      /* If data is a string, try parsing as JSON first */
-      if (typeof data === 'string') {
-        try {
-          var parsed = JSON.parse(data);
-          var reply = extractReply(parsed);
-          if (reply) return reply;
-          return data;
-        } catch (e) {
-          return data;
+      var result = data;
+
+      /* Unwrap string layers (handles double/triple-encoded JSON) */
+      if (typeof result === 'string') {
+        for (var i = 0; i < 3; i++) {
+          try {
+            var parsed = JSON.parse(result);
+            if (typeof parsed === 'object' && parsed !== null) {
+              /* Got an object — extract the reply */
+              var reply = extractReply(parsed);
+              if (reply) {
+                /* If reply itself looks like JSON, try one more parse */
+                if (typeof reply === 'string' && reply.trim().charAt(0) === '{') {
+                  try {
+                    var inner = JSON.parse(reply);
+                    var innerReply = extractReply(inner);
+                    if (innerReply) return innerReply;
+                  } catch (e2) { /* not JSON, use reply as-is */ }
+                }
+                return reply;
+              }
+              /* Object but no recognised reply field — return raw text */
+              return result;
+            }
+            /* Parsed to another string — keep unwrapping */
+            if (typeof parsed === 'string') {
+              result = parsed;
+              continue;
+            }
+            /* Primitive (number, boolean) — return as string */
+            return String(parsed);
+          } catch (e) {
+            /* Not valid JSON — return as plain text */
+            return result;
+          }
         }
+        return result;
       }
 
       /* Already an object */
-      var reply = extractReply(data);
+      var reply = extractReply(result);
       if (reply) return reply;
-      return JSON.stringify(data);
+      return JSON.stringify(result);
     }
 
     /* ---- Send message ---- */
