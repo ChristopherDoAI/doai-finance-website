@@ -460,6 +460,7 @@
     /* ---- Choice buttons ---- */
     .choice-buttons {
       display: flex;
+      flex-wrap: wrap;
       gap: 0.75rem;
       justify-content: center;
       padding: 0.5rem 0;
@@ -494,6 +495,14 @@
     .chat-input-area.locked {
       opacity: 0.3;
       pointer-events: none;
+    }
+
+    .chat-input-area.dimmed {
+      opacity: 0.5;
+    }
+
+    .chat-input-area.dimmed .chat-input {
+      transition: opacity 0.3s;
     }
 
     @media (max-width: 600px) {
@@ -639,6 +648,9 @@
     const sendBtn = document.getElementById('sendBtn');
 
     let isWaiting = false;
+    let dynamicButtonsActive = false;
+    const defaultPlaceholder = 'Type your message...';
+    const buttonsPlaceholder = 'Choose an option above or type your own response';
 
     /* ---- Small Heimer avatar for messages ---- */
     function heimerSmallHTML() {
@@ -762,13 +774,7 @@
         }
 
         removeTypingIndicator();
-
-        const qc = checkQualifyComplete(rawReply);
-        await addBotMessage(sanitise(qc.displayText));
-
-        if (qc.found) {
-          showContactForm(qc.category, qc.summary);
-        }
+        await processAndDisplayReply(rawReply);
 
       } catch (err) {
         removeTypingIndicator();
@@ -807,6 +813,107 @@
     function removeTypingIndicator() {
       const el = document.getElementById('typingIndicator');
       if (el) el.remove();
+    }
+
+    /* ---- Button detection in responses ---- */
+    function checkForButtons(text) {
+      var match = text.match(/\[BUTTONS:\s*(.*?)\]/i);
+      if (match) {
+        var labels = match[1].split('|').map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; });
+        var cleanText = text.replace(/\[BUTTONS:\s*.*?\]/i, '').trim();
+        return { found: true, labels: labels, displayText: cleanText };
+      }
+      return { found: false, displayText: text };
+    }
+
+    function showDynamicButtons(labels) {
+      var container = document.createElement('div');
+      container.className = 'choice-buttons';
+      container.id = 'dynamicButtons';
+
+      labels.forEach(function(label) {
+        var btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.textContent = label;
+        btn.addEventListener('click', function() { handleDynamicChoice(label); });
+        container.appendChild(btn);
+      });
+
+      chatMessages.appendChild(container);
+      scrollToBottom();
+
+      dynamicButtonsActive = true;
+      chatInput.placeholder = buttonsPlaceholder;
+      document.querySelector('.chat-input-area').classList.add('dimmed');
+    }
+
+    function removeDynamicButtons() {
+      var el = document.getElementById('dynamicButtons');
+      if (el) el.remove();
+      dynamicButtonsActive = false;
+      chatInput.placeholder = defaultPlaceholder;
+      document.querySelector('.chat-input-area').classList.remove('dimmed');
+    }
+
+    async function handleDynamicChoice(text) {
+      removeDynamicButtons();
+      addUserMessage(text);
+      showTypingIndicator();
+      isWaiting = true;
+      sendBtn.disabled = true;
+
+      try {
+        var controller = new AbortController();
+        var timeout = setTimeout(function() { controller.abort(); }, 10000);
+
+        var res = await fetch(CHAT_WEBHOOK, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: text,
+            sessionId: sessionId,
+            threadId: threadId
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeout);
+
+        var contentType = res.headers.get('content-type') || '';
+        var resText = await res.text();
+        var rawReply = parseResponse(resText, contentType);
+
+        if (!rawReply || rawReply.trim() === '') {
+          rawReply = "I received your message but didn't get a response. Please try again.";
+        }
+
+        removeTypingIndicator();
+        await processAndDisplayReply(rawReply);
+
+      } catch (err) {
+        removeTypingIndicator();
+        await addBotMessage("Sorry, I'm having a moment! Please try again.");
+      }
+
+      isWaiting = false;
+      sendBtn.disabled = false;
+      chatInput.focus();
+    }
+
+    /* ---- Process bot reply: QUALIFY_COMPLETE + buttons ---- */
+    async function processAndDisplayReply(rawReply) {
+      var qc = checkQualifyComplete(rawReply);
+      var bc = checkForButtons(qc.displayText);
+
+      await addBotMessage(sanitise(bc.displayText));
+
+      if (bc.found) {
+        showDynamicButtons(bc.labels);
+      }
+
+      if (qc.found) {
+        showContactForm(qc.category, qc.summary);
+      }
     }
 
     /* ---- QUALIFY_COMPLETE detection ---- */
@@ -875,6 +982,11 @@
       const text = chatInput.value.trim();
       if (!text || isWaiting) return;
 
+      /* Dismiss dynamic buttons if user types instead */
+      if (dynamicButtonsActive) {
+        removeDynamicButtons();
+      }
+
       isWaiting = true;
       sendBtn.disabled = true;
       chatInput.value = '';
@@ -911,13 +1023,7 @@
         }
 
         removeTypingIndicator();
-
-        const qc = checkQualifyComplete(rawReply);
-        await addBotMessage(sanitise(qc.displayText));
-
-        if (qc.found) {
-          showContactForm(qc.category, qc.summary);
-        }
+        await processAndDisplayReply(rawReply);
 
       } catch (err) {
         removeTypingIndicator();
