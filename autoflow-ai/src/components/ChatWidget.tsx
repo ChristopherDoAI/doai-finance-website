@@ -34,6 +34,9 @@ export default function ChatWidget() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Lead capture — driven by AI, saved silently when [LEAD:{...}] marker detected
+  const leadSavedRef = useRef(false);
+
   useEffect(() => {
     if (open) {
       setUnread(0);
@@ -58,8 +61,10 @@ export default function ChatWidget() {
     setLoading(true);
     setStreamingContent("");
 
-    // Book a call shortcut — instant response for best UX
-    if (text.toLowerCase().includes("book") || text.toLowerCase().includes("call")) {
+    // Book a call shortcut — only for explicit short booking requests, not general messages mentioning "call"
+    const t = text.trim().toLowerCase();
+    const isExplicitBooking = t.length < 40 && (t === "book a call" || t === "book" || t === "book call" || (t.startsWith("book") && t.includes("call")) || t === "i want to book");
+    if (isExplicitBooking) {
       setTimeout(() => {
         const reply: Message = {
           id: (Date.now() + 1).toString(),
@@ -121,6 +126,24 @@ export default function ChatWidget() {
         }
       }
 
+      // Parse and strip [LEAD:{...}] marker if present, then save silently
+      const markerIdx = accumulated.indexOf("[LEAD:");
+      if (markerIdx !== -1 && !leadSavedRef.current) {
+        const rest = accumulated.slice(markerIdx);
+        const endIdx = rest.indexOf("]");
+        if (endIdx !== -1) {
+          try {
+            const leadData = JSON.parse(rest.slice(6, endIdx));
+            accumulated = accumulated.slice(0, markerIdx).trim();
+            leadSavedRef.current = true;
+            saveLead(leadData);
+          } catch {
+            // malformed marker — strip it anyway to keep chat clean
+            accumulated = accumulated.slice(0, markerIdx).trim();
+          }
+        }
+      }
+
       // Finalize: move accumulated text into a proper message
       const finalMsg: Message = {
         id: (Date.now() + 1).toString(),
@@ -158,6 +181,27 @@ export default function ChatWidget() {
   const scrollToBooking = () => {
     document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
     setOpen(false);
+  };
+
+  const saveLead = async (leadData: { name?: string; email?: string; phone?: string; summary?: string }) => {
+    try {
+      const transcript = messages
+        .filter((m) => m.id !== "0")
+        .map(({ role, content }) => ({ role, content }));
+      await fetch("/api/chat/save-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: leadData.name,
+          email: leadData.email,
+          phone: leadData.phone,
+          notes: leadData.summary,
+          chatTranscript: transcript,
+        }),
+      });
+    } catch (err) {
+      console.error("[ChatWidget] Lead save failed:", err);
+    }
   };
 
   return (

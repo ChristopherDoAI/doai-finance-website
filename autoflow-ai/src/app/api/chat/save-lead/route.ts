@@ -6,6 +6,7 @@ interface ChatLeadRequest {
   name?: string;
   email: string;
   phone?: string;
+  notes?: string;
   chatTranscript: Array<{ role: string; content: string }>;
   utmSource?: string;
   utmMedium?: string;
@@ -35,6 +36,7 @@ export async function POST(req: NextRequest) {
         phone: body.phone || null,
         source: "chat" as const,
         chat_transcript: body.chatTranscript as unknown as Record<string, unknown>[],
+        notes: body.notes || null,
         utm_source: body.utmSource || null,
         utm_medium: body.utmMedium || null,
         utm_campaign: body.utmCampaign || null,
