@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
-import { AUTOFLOW_SYSTEM_PROMPT } from "@/lib/system-prompt";
+import { DOAI_SYSTEM_PROMPT } from "@/lib/system-prompt";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
 
   // Sanitize: only keep role/content, limit history, cap message length
   const messages: OpenAI.ChatCompletionMessageParam[] = [
-    { role: "system", content: AUTOFLOW_SYSTEM_PROMPT },
+    { role: "system", content: DOAI_SYSTEM_PROMPT },
     ...body.messages.slice(-20).map(({ role, content }) => ({
       role: role as "user" | "assistant",
       content: content.slice(0, 2000),

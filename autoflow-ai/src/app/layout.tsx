@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "AutoFlow AI — Stop Missing Calls. Start Winning More Work.",
+  title: "DoAi — Stop Missing Calls. Start Winning More Work.",
   description:
     "AI automation that answers your calls, qualifies your leads, and books your diary — 24 hours a day, 7 days a week. Built for business owners who are too busy to miss a single opportunity.",
   keywords: [
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "AI phone answering",
   ],
   openGraph: {
-    title: "AutoFlow AI — Stop Missing Calls. Start Winning More Work.",
+    title: "DoAi — Stop Missing Calls. Start Winning More Work.",
     description:
       "AI automation that answers your calls, qualifies your leads, and books your diary 24/7.",
     type: "website",
