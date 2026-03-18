@@ -13,7 +13,7 @@ const INITIAL_MESSAGE: Message = {
   id: "0",
   role: "assistant",
   content:
-    "Hi there! 👋 I'm AutoFlow's AI assistant. I can tell you about our services, answer questions, or help you book a call with the team. What can I help you with today?",
+    "Hi there! 👋 I'm DoAi's AI assistant. I can tell you about our services, answer questions, or help you book a call with the team. What can I help you with today?",
   timestamp: new Date(),
 };
 
@@ -29,9 +29,13 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [streamingContent, setStreamingContent] = useState("");
   const [unread, setUnread] = useState(1);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Lead capture — driven by AI, saved silently when [LEAD:{...}] marker detected
+  const leadSavedRef = useRef(false);
 
   useEffect(() => {
     if (open) {
@@ -42,7 +46,7 @@ export default function ChatWidget() {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, streamingContent]);
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return;
@@ -55,9 +59,12 @@ export default function ChatWidget() {
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setLoading(true);
+    setStreamingContent("");
 
-    // Book a call shortcut
-    if (text.toLowerCase().includes("book") || text.toLowerCase().includes("call")) {
+    // Book a call shortcut — only for explicit short booking requests, not general messages mentioning "call"
+    const t = text.trim().toLowerCase();
+    const isExplicitBooking = t.length < 40 && (t === "book a call" || t === "book" || t === "book call" || (t.startsWith("book") && t.includes("call")) || t === "i want to book");
+    if (isExplicitBooking) {
       setTimeout(() => {
         const reply: Message = {
           id: (Date.now() + 1).toString(),
@@ -68,42 +75,100 @@ export default function ChatWidget() {
         };
         setMessages((prev) => [...prev, reply]);
         setLoading(false);
-      }, 600);
+      }, 400);
       return;
     }
 
-    // v0.2.0 will call /api/chat with Claude API
-    // For now: static fallback responses
-    const fallbacks: Record<string, string> = {
-      services:
-        "We build four core AI products: a 24/7 Voice Agent that answers your calls, a Chat Agent for your website, automated Lead Generation into your CRM, and custom Process Automations to eliminate admin. Want to know more about any of these?",
-      cost:
-        "Pricing depends on which products you need and the volume of calls/chats. Most clients start from £400/month. The best next step is a free strategy call where we'll give you exact numbers for your situation.",
-      setup:
-        "Most clients are live within 48 hours of our strategy call. We handle all the technical setup — you just need to point your phone number to us and drop a snippet on your website.",
-      default:
-        "That's a great question! For the most accurate answer, I'd recommend booking a free call with our team — they'll give you specific advice tailored to your business. You can also ask me about our services, pricing, or setup time.",
-    };
+    try {
+      // Build message history for API (exclude the initial greeting)
+      const apiMessages = [...messages, userMsg]
+        .filter((m) => m.id !== "0")
+        .map(({ role, content }) => ({ role, content }));
 
-    const lower = text.toLowerCase();
-    let response = fallbacks.default;
-    if (lower.includes("service") || lower.includes("offer") || lower.includes("build"))
-      response = fallbacks.services;
-    else if (lower.includes("cost") || lower.includes("price") || lower.includes("much"))
-      response = fallbacks.cost;
-    else if (lower.includes("setup") || lower.includes("quick") || lower.includes("fast") || lower.includes("long"))
-      response = fallbacks.setup;
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: apiMessages }),
+      });
 
-    setTimeout(() => {
-      const reply: Message = {
+      if (!res.ok) {
+        throw new Error(`API error: ${res.status}`);
+      }
+
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error("No response body");
+
+      const decoder = new TextDecoder();
+      let accumulated = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split("\n");
+
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const data = line.slice(6).trim();
+          if (data === "[DONE]") continue;
+
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.error) throw new Error(parsed.error);
+            if (parsed.text) {
+              accumulated += parsed.text;
+              setStreamingContent(accumulated);
+            }
+          } catch {
+            // Skip malformed SSE lines
+          }
+        }
+      }
+
+      // Parse and strip [LEAD:{...}] marker if present, then save silently
+      const markerIdx = accumulated.indexOf("[LEAD:");
+      if (markerIdx !== -1 && !leadSavedRef.current) {
+        const rest = accumulated.slice(markerIdx);
+        const endIdx = rest.indexOf("]");
+        if (endIdx !== -1) {
+          try {
+            const leadData = JSON.parse(rest.slice(6, endIdx));
+            accumulated = accumulated.slice(0, markerIdx).trim();
+            leadSavedRef.current = true;
+            saveLead(leadData);
+          } catch {
+            // malformed marker — strip it anyway to keep chat clean
+            accumulated = accumulated.slice(0, markerIdx).trim();
+          }
+        }
+      }
+
+      // Finalize: move accumulated text into a proper message
+      const finalMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: response,
+        content:
+          accumulated ||
+          "I apologize, but I couldn't generate a response. Please try again.",
         timestamp: new Date(),
       };
-      setMessages((prev) => [...prev, reply]);
+      setMessages((prev) => [...prev, finalMsg]);
+      setStreamingContent("");
+    } catch (err) {
+      console.error("[ChatWidget] Stream error:", err);
+      const errorMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content:
+          "Sorry, I'm having trouble connecting right now. Please try again in a moment, or you can book a call directly using the booking section below.",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMsg]);
+      setStreamingContent("");
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -118,6 +183,27 @@ export default function ChatWidget() {
     setOpen(false);
   };
 
+  const saveLead = async (leadData: { name?: string; email?: string; phone?: string; summary?: string }) => {
+    try {
+      const transcript = messages
+        .filter((m) => m.id !== "0")
+        .map(({ role, content }) => ({ role, content }));
+      await fetch("/api/chat/save-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: leadData.name,
+          email: leadData.email,
+          phone: leadData.phone,
+          notes: leadData.summary,
+          chatTranscript: transcript,
+        }),
+      });
+    } catch (err) {
+      console.error("[ChatWidget] Lead save failed:", err);
+    }
+  };
+
   return (
     <>
       {/* Chat panel */}
@@ -126,16 +212,16 @@ export default function ChatWidget() {
           className="chat-panel fixed bottom-24 right-4 md:right-6 z-50 w-[calc(100vw-2rem)] max-w-sm bg-surface border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
           style={{ height: "520px" }}
           role="dialog"
-          aria-label="AutoFlow AI chat"
+          aria-label="DoAi chat"
         >
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3.5 border-b border-border bg-card">
             <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white font-display font-bold text-sm">
-              A
+              D
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-display font-semibold text-sm text-text-primary leading-none">
-                AutoFlow AI
+                DoAi
               </p>
               <p className="text-xs font-body text-text-muted mt-0.5 flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" />
@@ -173,9 +259,11 @@ export default function ChatWidget() {
                   }`}
                 >
                   {msg.content}
-                  {/* Show booking button in relevant assistant messages */}
+                  {/* Show booking button when bot mentions booking/call/calendar */}
                   {msg.role === "assistant" &&
-                    msg.content.includes("booking") && (
+                    msg.content.toLowerCase().includes("book") &&
+                    (msg.content.toLowerCase().includes("call") ||
+                      msg.content.toLowerCase().includes("calendar")) && (
                       <button
                         onClick={scrollToBooking}
                         className="mt-2 w-full h-8 rounded-lg bg-accent text-white text-xs font-display font-semibold hover:bg-accent-light transition-colors"
@@ -187,8 +275,21 @@ export default function ChatWidget() {
               </div>
             ))}
 
-            {/* Loading indicator */}
-            {loading && (
+            {/* Streaming message (tokens arriving) */}
+            {streamingContent && (
+              <div className="flex gap-2 justify-start">
+                <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">
+                  A
+                </div>
+                <div className="max-w-[80%] px-3.5 py-2.5 rounded-2xl rounded-bl-sm text-sm font-body leading-relaxed bg-card border border-border text-text-secondary">
+                  {streamingContent}
+                  <span className="inline-block w-1 h-4 bg-accent/60 animate-pulse ml-0.5 align-text-bottom" />
+                </div>
+              </div>
+            )}
+
+            {/* Loading indicator (before streaming starts) */}
+            {loading && !streamingContent && (
               <div className="flex gap-2 justify-start">
                 <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">
                   A
@@ -247,7 +348,7 @@ export default function ChatWidget() {
               </button>
             </div>
             <p className="text-center text-xs font-body text-text-muted mt-2 opacity-50">
-              Powered by AutoFlow AI · Claude API in v0.2.0
+              Powered by DoAi
             </p>
           </div>
         </div>

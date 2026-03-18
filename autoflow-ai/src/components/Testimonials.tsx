@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 const testimonials = [
   {
     quote:
-      "I was losing two or three jobs a week just from missed calls while I was on site. AutoFlow's voice agent now handles everything. It even books them in before I've put my tools down.",
+      "I was losing two or three jobs a week just from missed calls while I was on site. DoAi's voice agent now handles everything. It even books them in before I've put my tools down.",
     name: "James Hartley",
     role: "Sole trader — Electrical",
     initials: "JH",

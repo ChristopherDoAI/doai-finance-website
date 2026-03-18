@@ -14,7 +14,7 @@ export default function BookingSection() {
   const [calendlyReady, setCalendlyReady] = useState(false);
   const calendlyUrl =
     process.env.NEXT_PUBLIC_CALENDLY_URL ||
-    "https://calendly.com/autoflow-ai/discovery-call";
+    "https://calendly.com/roy-cheung-doaisystems/30min";
 
   // Load Calendly script
   useEffect(() => {

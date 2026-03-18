@@ -108,7 +108,7 @@ export default function Hero() {
           className="font-body text-lg md:text-xl text-text-secondary max-w-2xl mb-10 leading-relaxed"
           style={{ animation: "fadeUp 0.55s 220ms ease forwards", opacity: 0 }}
         >
-          AutoFlow AI deploys intelligent agents that answer your calls, qualify
+          DoAi deploys intelligent agents that answer your calls, qualify
           your leads, and book your diary — while you&apos;re on the job, in a
           meeting, or sound asleep.
         </p>

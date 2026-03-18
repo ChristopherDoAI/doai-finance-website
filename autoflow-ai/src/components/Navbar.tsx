@@ -40,13 +40,13 @@ export default function Navbar() {
         <a
           href="#"
           className="font-display font-bold text-xl tracking-tight flex items-center gap-2 group"
-          aria-label="AutoFlow AI home"
+          aria-label="DoAi home"
         >
           <span className="w-7 h-7 rounded bg-accent flex items-center justify-center text-base text-sm font-black text-white transition-transform duration-200 group-hover:scale-110">
-            A
+            D
           </span>
           <span className="text-text-primary">
-            Auto<span className="text-accent">Flow</span> AI
+            Do<span className="text-accent">Ai</span>
           </span>
         </a>
 

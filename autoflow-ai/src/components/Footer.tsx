@@ -80,10 +80,10 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-1">
             <a href="#" className="inline-flex items-center gap-2 mb-4 group">
               <span className="w-7 h-7 rounded bg-accent flex items-center justify-center text-sm font-black text-white transition-transform duration-200 group-hover:scale-110">
-                A
+                D
               </span>
               <span className="font-display font-bold text-lg text-text-primary">
-                Auto<span className="text-accent">Flow</span> AI
+                Do<span className="text-accent">Ai</span>
               </span>
             </a>
             <p className="font-body text-sm text-text-muted leading-relaxed max-w-xs mb-6">
@@ -141,7 +141,7 @@ export default function Footer() {
       <div className="border-t border-border">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="font-body text-xs text-text-muted">
-            © {year} AutoFlow AI Ltd. All rights reserved.
+            © {year} DoAi Ltd. All rights reserved.
           </p>
           <p className="font-body text-xs text-text-muted flex items-center gap-1.5">
             Built with
