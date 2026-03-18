@@ -55,7 +55,7 @@ export default function BookingSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at 50% 0%, rgba(240,165,0,0.06) 0%, transparent 60%)",
+            "radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.04) 0%, transparent 60%)",
         }}
       />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
@@ -98,7 +98,7 @@ export default function BookingSection() {
             <button
               onClick={openCalendly}
               disabled={!calendlyReady}
-              className="group h-14 px-8 rounded-full bg-accent text-black font-display font-bold tracking-tight text-base hover:bg-accent-light active:scale-95 transition-all duration-150 shadow-amber-glow flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group h-14 px-8 rounded-full bg-accent text-white font-display font-bold tracking-tight text-base hover:bg-accent-light active:scale-95 transition-all duration-150 shadow-accent-glow flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {calendlyReady ? (
                 <>
@@ -121,7 +121,7 @@ export default function BookingSection() {
           <div className="rounded-2xl overflow-hidden border border-border bg-card min-h-[600px] flex items-stretch">
             <div
               className="calendly-inline-widget w-full"
-              data-url={`${calendlyUrl}?hide_gdpr_banner=1&background_color=111113&text_color=F0EDE6&primary_color=F0A500`}
+              data-url={`${calendlyUrl}?hide_gdpr_banner=1&background_color=FFFFFF&text_color=0F172A&primary_color=6366F1`}
               style={{ minWidth: "320px", height: "680px" }}
             />
             {/* Calendly inline widget script trigger */}
@@ -131,7 +131,7 @@ export default function BookingSection() {
                   __html: `
                     if (window.Calendly && !document.querySelector('.calendly-inline-widget iframe')) {
                       Calendly.initInlineWidget({
-                        url: '${calendlyUrl}?hide_gdpr_banner=1&background_color=111113&text_color=F0EDE6&primary_color=F0A500',
+                        url: '${calendlyUrl}?hide_gdpr_banner=1&background_color=FFFFFF&text_color=0F172A&primary_color=6366F1',
                         parentElement: document.querySelector('.calendly-inline-widget'),
                         prefill: {},
                         utm: {}

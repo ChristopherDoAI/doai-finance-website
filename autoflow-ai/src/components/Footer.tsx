@@ -63,7 +63,7 @@ export default function Footer() {
               e.preventDefault();
               document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="flex-shrink-0 h-12 px-7 rounded-full bg-accent text-black font-display font-bold tracking-tight text-sm hover:bg-accent-light active:scale-95 transition-all duration-150 flex items-center gap-2 shadow-amber-glow"
+            className="flex-shrink-0 h-12 px-7 rounded-full bg-accent text-white font-display font-bold tracking-tight text-sm hover:bg-accent-light active:scale-95 transition-all duration-150 flex items-center gap-2 shadow-accent-glow"
           >
             Book your free call
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -79,7 +79,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <a href="#" className="inline-flex items-center gap-2 mb-4 group">
-              <span className="w-7 h-7 rounded bg-accent flex items-center justify-center text-sm font-black text-black transition-transform duration-200 group-hover:scale-110">
+              <span className="w-7 h-7 rounded bg-accent flex items-center justify-center text-sm font-black text-white transition-transform duration-200 group-hover:scale-110">
                 A
               </span>
               <span className="font-display font-bold text-lg text-text-primary">
