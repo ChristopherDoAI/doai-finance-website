@@ -99,7 +99,7 @@ export default function Services() {
           {services.map((service, i) => (
             <div
               key={i}
-              className={`group relative bg-card border border-border rounded-2xl p-8 hover:border-border-light hover:bg-card-hover transition-all duration-300 hover:shadow-card-hover cursor-default ${
+              className={`group relative bg-card border border-border rounded-2xl p-8 shadow-card hover:border-border-light hover:bg-card-hover transition-all duration-300 hover:shadow-card-hover cursor-default ${
                 inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               }`}
               style={{
@@ -113,7 +113,7 @@ export default function Services() {
               </span>
 
               {/* Icon */}
-              <div className="w-11 h-11 rounded-xl bg-surface border border-border flex items-center justify-center text-accent mb-6 group-hover:bg-accent group-hover:text-black group-hover:border-accent transition-all duration-200">
+              <div className="w-11 h-11 rounded-xl bg-surface border border-border flex items-center justify-center text-accent mb-6 group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-all duration-200">
                 {service.icon}
               </div>
 

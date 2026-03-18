@@ -39,7 +39,7 @@ export default function HowItWorks() {
   return (
     <section id="how-it-works" className="py-28 bg-surface relative overflow-hidden">
       {/* Grid bg */}
-      <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none" />
+      <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10">
         {/* Header */}
@@ -98,7 +98,7 @@ export default function HowItWorks() {
 
                   {/* Centre node (desktop) */}
                   <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 items-center justify-center">
-                    <div className="w-10 h-10 rounded-full bg-card border-2 border-accent flex items-center justify-center shadow-amber-glow">
+                    <div className="w-10 h-10 rounded-full bg-card border-2 border-accent flex items-center justify-center shadow-accent-glow">
                       <span className="font-display font-bold text-xs text-accent">{i + 1}</span>
                     </div>
                   </div>

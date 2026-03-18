@@ -31,7 +31,7 @@ export default function Navbar() {
       className={clsx(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-surface/95 backdrop-blur-md border-b border-border"
+          ? "bg-white/80 backdrop-blur-md border-b border-border shadow-sm"
           : "bg-transparent"
       )}
     >
@@ -42,7 +42,7 @@ export default function Navbar() {
           className="font-display font-bold text-xl tracking-tight flex items-center gap-2 group"
           aria-label="AutoFlow AI home"
         >
-          <span className="w-7 h-7 rounded bg-accent flex items-center justify-center text-base text-sm font-black text-black transition-transform duration-200 group-hover:scale-110">
+          <span className="w-7 h-7 rounded bg-accent flex items-center justify-center text-base text-sm font-black text-white transition-transform duration-200 group-hover:scale-110">
             A
           </span>
           <span className="text-text-primary">
@@ -56,7 +56,7 @@ export default function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="text-sm font-body text-text-secondary hover:text-text-primary transition-colors duration-200 underline-amber"
+                className="text-sm font-body text-text-secondary hover:text-text-primary transition-colors duration-200 underline-accent"
               >
                 {link.label}
               </a>
@@ -68,7 +68,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-4">
           <button
             onClick={handleBooking}
-            className="h-9 px-5 rounded-full bg-accent text-black text-sm font-display font-semibold tracking-tight hover:bg-accent-light active:scale-95 transition-all duration-150 animate-pulse-amber"
+            className="h-9 px-5 rounded-full bg-accent text-white text-sm font-display font-semibold tracking-tight hover:bg-accent-light active:scale-95 transition-all duration-150 animate-pulse-accent"
           >
             Book a free call
           </button>
@@ -124,7 +124,7 @@ export default function Navbar() {
           <li className="pt-2 border-t border-border">
             <button
               onClick={handleBooking}
-              className="w-full h-11 rounded-full bg-accent text-black font-display font-semibold tracking-tight hover:bg-accent-light transition-colors"
+              className="w-full h-11 rounded-full bg-accent text-white font-display font-semibold tracking-tight hover:bg-accent-light transition-colors"
             >
               Book a free call
             </button>

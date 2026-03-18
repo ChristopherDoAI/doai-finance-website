@@ -2,6 +2,25 @@
 
 ---
 
+## v0.1.1 — Light Theme Redesign
+**Date:** 2026-03-18
+**Status:** Complete
+
+### What changed
+Full visual redesign from dark industrial-luxury to light & clean modern SaaS aesthetic.
+
+- **Color palette:** Dark backgrounds → white/light gray backgrounds
+- **Accent color:** Amber `#F0A500` → Indigo `#6366F1`
+- **Typography:** Syne + IBM Plex Sans → Inter (single font for headings + body)
+- **Shadows:** Amber glows → subtle indigo accent glows + neutral card shadows
+- **Grid/noise overlays:** Adjusted for light backgrounds, noise overlay removed
+- **All content unchanged** — same copy, services, testimonials, stats
+
+### Files modified
+All 9 components, `tailwind.config.ts`, `globals.css`, `layout.tsx`, `VERSION.md`
+
+---
+
 ## v0.1.0 — Initial Frontend Build
 **Date:** 2026-03-18
 **Status:** Complete
@@ -44,10 +63,9 @@ Full Next.js 14 (App Router) marketing website for an AI automation agency.
 - [ ] Claude API chatbot integration (v0.2.0)
 - [ ] HubSpot CRM push from webhook (v0.2.0)
 - [ ] Supabase lead storage implementation (v0.2.0)
-- [ ] Voice agent demo page (v0.3.0)
-- [ ] Admin dashboard (v0.4.0)
-- [ ] Blog / SEO content pages (v0.5.0)
-- [ ] A/B testing on hero copy (v0.5.0)
+- [ ] Admin dashboard (v0.3.0)
+- [ ] Blog / SEO content pages (v0.4.0)
+- [ ] A/B testing on hero copy (v0.4.0)
 
 ### How to run
 ```bash

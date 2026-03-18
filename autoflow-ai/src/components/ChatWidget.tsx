@@ -130,7 +130,7 @@ export default function ChatWidget() {
         >
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3.5 border-b border-border bg-card">
-            <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-black font-display font-bold text-sm">
+            <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white font-display font-bold text-sm">
               A
             </div>
             <div className="flex-1 min-w-0">
@@ -161,14 +161,14 @@ export default function ChatWidget() {
                 className={`flex gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 {msg.role === "assistant" && (
-                  <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center text-black font-bold text-xs flex-shrink-0 mt-0.5">
+                  <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">
                     A
                   </div>
                 )}
                 <div
                   className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-sm font-body leading-relaxed ${
                     msg.role === "user"
-                      ? "bg-accent text-black font-medium rounded-br-sm"
+                      ? "bg-accent text-white font-medium rounded-br-sm"
                       : "bg-card border border-border text-text-secondary rounded-bl-sm"
                   }`}
                 >
@@ -178,7 +178,7 @@ export default function ChatWidget() {
                     msg.content.includes("booking") && (
                       <button
                         onClick={scrollToBooking}
-                        className="mt-2 w-full h-8 rounded-lg bg-accent text-black text-xs font-display font-semibold hover:bg-accent-light transition-colors"
+                        className="mt-2 w-full h-8 rounded-lg bg-accent text-white text-xs font-display font-semibold hover:bg-accent-light transition-colors"
                       >
                         Book a call →
                       </button>
@@ -190,7 +190,7 @@ export default function ChatWidget() {
             {/* Loading indicator */}
             {loading && (
               <div className="flex gap-2 justify-start">
-                <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center text-black font-bold text-xs flex-shrink-0 mt-0.5">
+                <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">
                   A
                 </div>
                 <div className="bg-card border border-border px-4 py-3 rounded-2xl rounded-bl-sm flex items-center gap-1.5">
@@ -238,7 +238,7 @@ export default function ChatWidget() {
               <button
                 onClick={() => sendMessage(input)}
                 disabled={!input.trim() || loading}
-                className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center text-black hover:bg-accent-light disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95 flex-shrink-0"
+                className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center text-white hover:bg-accent-light disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95 flex-shrink-0"
                 aria-label="Send message"
               >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -256,7 +256,7 @@ export default function ChatWidget() {
       {/* Floating trigger button */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-5 right-4 md:right-6 z-50 w-14 h-14 rounded-full bg-accent text-black shadow-amber-glow hover:bg-accent-light active:scale-95 transition-all duration-150 flex items-center justify-center"
+        className="fixed bottom-5 right-4 md:right-6 z-50 w-14 h-14 rounded-full bg-accent text-white shadow-accent-glow hover:bg-accent-light active:scale-95 transition-all duration-150 flex items-center justify-center"
         aria-label={open ? "Close chat" : "Open chat"}
       >
         {open ? (

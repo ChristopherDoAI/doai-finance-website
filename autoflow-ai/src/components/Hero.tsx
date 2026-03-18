@@ -69,14 +69,14 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex flex-col justify-center pt-16 overflow-hidden">
       {/* Grid background */}
-      <div className="absolute inset-0 grid-bg opacity-60 pointer-events-none" />
+      <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
 
       {/* Amber radial glow */}
       <div
         className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at center, rgba(240,165,0,0.07) 0%, transparent 70%)",
+            "radial-gradient(ellipse at center, rgba(99,102,241,0.05) 0%, transparent 70%)",
         }}
       />
 
@@ -120,7 +120,7 @@ export default function Hero() {
         >
           <button
             onClick={scrollToBooking}
-            className="group h-12 px-7 rounded-full bg-accent text-black font-display font-bold tracking-tight text-base hover:bg-accent-light active:scale-95 transition-all duration-150 shadow-amber-glow flex items-center gap-2"
+            className="group h-12 px-7 rounded-full bg-accent text-white font-display font-bold tracking-tight text-base hover:bg-accent-light active:scale-95 transition-all duration-150 shadow-accent-glow flex items-center gap-2"
           >
             Book a free strategy call
             <svg
