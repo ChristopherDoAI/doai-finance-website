@@ -1,5 +1,7 @@
 import { createHmac } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
+import { createServiceClient } from "@/lib/supabase";
+import { createOrUpdateContact } from "@/lib/hubspot";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -57,22 +59,69 @@ async function saveLead(data: {
   eventName: string;
   cancelUrl: string;
   rescheduleUrl: string;
+  calendlyEventUri?: string;
   utmSource?: string;
-}) {
-  // v0.2.0: Replace with Supabase insert
-  // const { error } = await supabase.from("leads").insert({ ...data });
-  console.log("[Calendly] Lead saved:", data);
+  utmMedium?: string;
+  utmCampaign?: string;
+}): Promise<string | null> {
+  const supabase = createServiceClient();
+  const { data: lead, error } = await supabase
+    .from("leads")
+    .insert({
+      name: data.name,
+      email: data.email,
+      source: "booking" as const,
+      scheduled_at: data.scheduledAt,
+      timezone: data.timezone,
+      cancel_url: data.cancelUrl,
+      reschedule_url: data.rescheduleUrl,
+      calendly_event_uri: data.calendlyEventUri || null,
+      utm_source: data.utmSource || null,
+      utm_medium: data.utmMedium || null,
+      utm_campaign: data.utmCampaign || null,
+      lead_score: 50,
+    })
+    .select("id")
+    .single();
+
+  if (error) {
+    console.error("[Calendly] Supabase insert error:", error);
+    throw error;
+  }
+  console.log(`[Calendly] Lead saved: ${lead?.id}`);
+  return lead?.id || null;
 }
 
-async function pushToHubSpot(data: { name: string; email: string; scheduledAt: string }) {
-  // v0.2.0: Replace with HubSpot API call
-  // POST https://api.hubapi.com/crm/v3/objects/contacts
-  console.log("[Calendly] HubSpot push:", data);
+async function pushToHubSpot(data: {
+  name: string;
+  email: string;
+  scheduledAt: string;
+  leadId?: string | null;
+}): Promise<void> {
+  const nameParts = data.name.split(" ");
+  const hubspotContactId = await createOrUpdateContact({
+    email: data.email,
+    firstname: nameParts[0] || "",
+    lastname: nameParts.slice(1).join(" ") || "",
+    lifecyclestage: "lead",
+    hs_lead_status: "NEW",
+  });
+
+  // Store HubSpot contact ID back in Supabase
+  if (hubspotContactId && data.leadId) {
+    const supabase = createServiceClient();
+    await supabase
+      .from("leads")
+      .update({ hubspot_contact_id: hubspotContactId })
+      .eq("id", data.leadId);
+  }
+
+  console.log(`[Calendly] HubSpot contact: ${hubspotContactId}`);
 }
 
 async function sendConfirmationEmail(data: { name: string; email: string; scheduledAt: string }) {
-  // v0.2.0: Replace with Resend / SendGrid call
-  console.log("[Calendly] Confirmation email sent to:", data.email);
+  // TODO: Implement with Resend or SendGrid
+  console.log("[Calendly] Confirmation email skipped (not implemented):", data.email);
 }
 
 // ─── Route handler ────────────────────────────────────────────────────────────
@@ -104,25 +153,30 @@ export async function POST(req: NextRequest) {
     const eventName = payload.scheduled_event.name;
 
     try {
+      // Save lead first (need the ID for HubSpot backlink)
+      const leadId = await saveLead({
+        name,
+        email,
+        scheduledAt,
+        timezone,
+        eventName,
+        cancelUrl: payload.cancel_url,
+        rescheduleUrl: payload.reschedule_url,
+        calendlyEventUri: payload.event,
+        utmSource: payload.tracking?.utm_source,
+        utmMedium: payload.tracking?.utm_medium,
+        utmCampaign: payload.tracking?.utm_campaign,
+      });
+
+      // Push to HubSpot and send email in parallel
       await Promise.all([
-        saveLead({
-          name,
-          email,
-          scheduledAt,
-          timezone,
-          eventName,
-          cancelUrl: payload.cancel_url,
-          rescheduleUrl: payload.reschedule_url,
-          utmSource: payload.tracking?.utm_source,
-        }),
-        pushToHubSpot({ name, email, scheduledAt }),
+        pushToHubSpot({ name, email, scheduledAt, leadId }),
         sendConfirmationEmail({ name, email, scheduledAt }),
       ]);
 
-      console.log(`[Calendly] ✓ Booking processed for ${name} <${email}> at ${scheduledAt}`);
+      console.log(`[Calendly] Booking processed for ${name} <${email}>`);
     } catch (err) {
       console.error("[Calendly] Error processing booking:", err);
-      // Return 200 anyway to prevent Calendly retrying — log to Sentry in v0.2.0
     }
   }
 
@@ -130,7 +184,7 @@ export async function POST(req: NextRequest) {
   if (event === "invitee.canceled") {
     const { name, email } = payload.invitee;
     console.log(`[Calendly] Booking cancelled for ${name} <${email}>`);
-    // v0.2.0: Update HubSpot deal stage, send cancellation email
+    // TODO: Update lead status in Supabase, update HubSpot deal stage
   }
 
   // Respond within 3s to avoid Calendly retry

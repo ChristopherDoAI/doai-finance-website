@@ -29,6 +29,7 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [streamingContent, setStreamingContent] = useState("");
   const [unread, setUnread] = useState(1);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,7 +43,7 @@ export default function ChatWidget() {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, streamingContent]);
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return;
@@ -55,8 +56,9 @@ export default function ChatWidget() {
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setLoading(true);
+    setStreamingContent("");
 
-    // Book a call shortcut
+    // Book a call shortcut — instant response for best UX
     if (text.toLowerCase().includes("book") || text.toLowerCase().includes("call")) {
       setTimeout(() => {
         const reply: Message = {
@@ -68,42 +70,82 @@ export default function ChatWidget() {
         };
         setMessages((prev) => [...prev, reply]);
         setLoading(false);
-      }, 600);
+      }, 400);
       return;
     }
 
-    // v0.2.0 will call /api/chat with Claude API
-    // For now: static fallback responses
-    const fallbacks: Record<string, string> = {
-      services:
-        "We build four core AI products: a 24/7 Voice Agent that answers your calls, a Chat Agent for your website, automated Lead Generation into your CRM, and custom Process Automations to eliminate admin. Want to know more about any of these?",
-      cost:
-        "Pricing depends on which products you need and the volume of calls/chats. Most clients start from £400/month. The best next step is a free strategy call where we'll give you exact numbers for your situation.",
-      setup:
-        "Most clients are live within 48 hours of our strategy call. We handle all the technical setup — you just need to point your phone number to us and drop a snippet on your website.",
-      default:
-        "That's a great question! For the most accurate answer, I'd recommend booking a free call with our team — they'll give you specific advice tailored to your business. You can also ask me about our services, pricing, or setup time.",
-    };
+    try {
+      // Build message history for API (exclude the initial greeting)
+      const apiMessages = [...messages, userMsg]
+        .filter((m) => m.id !== "0")
+        .map(({ role, content }) => ({ role, content }));
 
-    const lower = text.toLowerCase();
-    let response = fallbacks.default;
-    if (lower.includes("service") || lower.includes("offer") || lower.includes("build"))
-      response = fallbacks.services;
-    else if (lower.includes("cost") || lower.includes("price") || lower.includes("much"))
-      response = fallbacks.cost;
-    else if (lower.includes("setup") || lower.includes("quick") || lower.includes("fast") || lower.includes("long"))
-      response = fallbacks.setup;
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: apiMessages }),
+      });
 
-    setTimeout(() => {
-      const reply: Message = {
+      if (!res.ok) {
+        throw new Error(`API error: ${res.status}`);
+      }
+
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error("No response body");
+
+      const decoder = new TextDecoder();
+      let accumulated = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split("\n");
+
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const data = line.slice(6).trim();
+          if (data === "[DONE]") continue;
+
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.error) throw new Error(parsed.error);
+            if (parsed.text) {
+              accumulated += parsed.text;
+              setStreamingContent(accumulated);
+            }
+          } catch {
+            // Skip malformed SSE lines
+          }
+        }
+      }
+
+      // Finalize: move accumulated text into a proper message
+      const finalMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: response,
+        content:
+          accumulated ||
+          "I apologize, but I couldn't generate a response. Please try again.",
         timestamp: new Date(),
       };
-      setMessages((prev) => [...prev, reply]);
+      setMessages((prev) => [...prev, finalMsg]);
+      setStreamingContent("");
+    } catch (err) {
+      console.error("[ChatWidget] Stream error:", err);
+      const errorMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content:
+          "Sorry, I'm having trouble connecting right now. Please try again in a moment, or you can book a call directly using the booking section below.",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMsg]);
+      setStreamingContent("");
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -173,9 +215,11 @@ export default function ChatWidget() {
                   }`}
                 >
                   {msg.content}
-                  {/* Show booking button in relevant assistant messages */}
+                  {/* Show booking button when bot mentions booking/call/calendar */}
                   {msg.role === "assistant" &&
-                    msg.content.includes("booking") && (
+                    msg.content.toLowerCase().includes("book") &&
+                    (msg.content.toLowerCase().includes("call") ||
+                      msg.content.toLowerCase().includes("calendar")) && (
                       <button
                         onClick={scrollToBooking}
                         className="mt-2 w-full h-8 rounded-lg bg-accent text-white text-xs font-display font-semibold hover:bg-accent-light transition-colors"
@@ -187,8 +231,21 @@ export default function ChatWidget() {
               </div>
             ))}
 
-            {/* Loading indicator */}
-            {loading && (
+            {/* Streaming message (tokens arriving) */}
+            {streamingContent && (
+              <div className="flex gap-2 justify-start">
+                <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">
+                  A
+                </div>
+                <div className="max-w-[80%] px-3.5 py-2.5 rounded-2xl rounded-bl-sm text-sm font-body leading-relaxed bg-card border border-border text-text-secondary">
+                  {streamingContent}
+                  <span className="inline-block w-1 h-4 bg-accent/60 animate-pulse ml-0.5 align-text-bottom" />
+                </div>
+              </div>
+            )}
+
+            {/* Loading indicator (before streaming starts) */}
+            {loading && !streamingContent && (
               <div className="flex gap-2 justify-start">
                 <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">
                   A
@@ -247,7 +304,7 @@ export default function ChatWidget() {
               </button>
             </div>
             <p className="text-center text-xs font-body text-text-muted mt-2 opacity-50">
-              Powered by AutoFlow AI · Claude API in v0.2.0
+              Powered by AutoFlow AI
             </p>
           </div>
         </div>
