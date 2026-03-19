@@ -60,6 +60,7 @@ export default function ChatWidget() {
     setInput("");
     setLoading(true);
     setStreamingContent("");
+    inputRef.current?.focus();
 
     // Book a call shortcut — only for explicit short booking requests, not general messages mentioning "call"
     const t = text.trim().toLowerCase();
@@ -221,7 +222,7 @@ export default function ChatWidget() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-display font-semibold text-sm text-text-primary leading-none">
-                DoAi
+                DoAi Assistant
               </p>
               <p className="text-xs font-body text-text-muted mt-0.5 flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" />
@@ -248,15 +249,14 @@ export default function ChatWidget() {
               >
                 {msg.role === "assistant" && (
                   <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">
-                    A
+                    D
                   </div>
                 )}
                 <div
-                  className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-sm font-body leading-relaxed ${
-                    msg.role === "user"
-                      ? "bg-accent text-white font-medium rounded-br-sm"
-                      : "bg-card border border-border text-text-secondary rounded-bl-sm"
-                  }`}
+                  className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-sm font-body leading-relaxed ${msg.role === "user"
+                    ? "bg-accent text-white font-medium rounded-br-sm"
+                    : "bg-card border border-border text-text-secondary rounded-bl-sm"
+                    }`}
                 >
                   {msg.content}
                   {/* Show booking button when bot mentions booking/call/calendar */}
@@ -279,7 +279,7 @@ export default function ChatWidget() {
             {streamingContent && (
               <div className="flex gap-2 justify-start">
                 <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">
-                  A
+                  D
                 </div>
                 <div className="max-w-[80%] px-3.5 py-2.5 rounded-2xl rounded-bl-sm text-sm font-body leading-relaxed bg-card border border-border text-text-secondary">
                   {streamingContent}
@@ -292,7 +292,7 @@ export default function ChatWidget() {
             {loading && !streamingContent && (
               <div className="flex gap-2 justify-start">
                 <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">
-                  A
+                  D
                 </div>
                 <div className="bg-card border border-border px-4 py-3 rounded-2xl rounded-bl-sm flex items-center gap-1.5">
                   {[0, 1, 2].map((i) => (
@@ -334,7 +334,6 @@ export default function ChatWidget() {
                 onKeyDown={handleKeyDown}
                 placeholder="Ask anything..."
                 className="flex-1 bg-transparent text-sm font-body text-text-primary placeholder-text-muted outline-none min-w-0"
-                disabled={loading}
               />
               <button
                 onClick={() => sendMessage(input)}
