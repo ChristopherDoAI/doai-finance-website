@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase";
 import { createOrUpdateContact } from "@/lib/hubspot";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 interface ChatLeadRequest {
   name?: string;
@@ -13,7 +14,29 @@ interface ChatLeadRequest {
   utmCampaign?: string;
 }
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_BODY_SIZE = 100_000; // 100KB
+
 export async function POST(req: NextRequest) {
+  // Rate limiting by IP
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    "unknown";
+  const { allowed } = checkRateLimit(`lead:${ip}`);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Too many requests. Please wait a moment." },
+      { status: 429 }
+    );
+  }
+
+  // Body size check
+  const contentLength = parseInt(req.headers.get("content-length") || "0", 10);
+  if (contentLength > MAX_BODY_SIZE) {
+    return NextResponse.json({ error: "Request too large" }, { status: 413 });
+  }
+
   let body: ChatLeadRequest;
   try {
     body = await req.json();
@@ -21,8 +44,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  if (!body.email) {
-    return NextResponse.json({ error: "Email required" }, { status: 400 });
+  if (!body.email || !EMAIL_REGEX.test(body.email)) {
+    return NextResponse.json({ error: "Valid email required" }, { status: 400 });
   }
 
   const supabase = createServiceClient();
