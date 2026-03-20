@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 const stats = [
   { value: 94, suffix: "%", label: "Calls answered first ring" },
-  { value: 3, prefix: "£", suffix: "k+", label: "Avg. value recovered per month" },
+  { value: 500, prefix: "", suffix: "+", label: "Business Owners Served" },
   { value: 24, suffix: "/7", label: "Always on, never tired" },
   { value: 48, suffix: "h", label: "Average setup time" },
 ];
@@ -25,7 +25,7 @@ function AnimatedNumber({
   useEffect(() => {
     if (!inView) return;
     let start = 0;
-    const duration = 1400;
+    const duration = 5600;
     const startTime = performance.now();
 
     const tick = (now: number) => {

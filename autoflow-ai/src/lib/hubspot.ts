@@ -40,7 +40,7 @@ export async function createOrUpdateContact(
   // If 409 conflict (contact exists), update by email
   if (createRes.status === 409) {
     const updateRes = await fetch(
-      `${HUBSPOT_BASE}/crm/v3/objects/contacts/${properties.email}?idProperty=email`,
+      `${HUBSPOT_BASE}/crm/v3/objects/contacts/${encodeURIComponent(properties.email)}?idProperty=email`,
       {
         method: "PATCH",
         headers,

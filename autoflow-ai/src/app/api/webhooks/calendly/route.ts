@@ -44,8 +44,8 @@ interface CalendlyWebhookPayload {
 function verifySignature(rawBody: string, signature: string): boolean {
   const secret = process.env.CALENDLY_WEBHOOK_SECRET;
   if (!secret) {
-    console.warn("[Calendly] CALENDLY_WEBHOOK_SECRET not set — skipping verification in dev");
-    return true;
+    console.error("[Calendly] CALENDLY_WEBHOOK_SECRET not set — rejecting webhook");
+    return false;
   }
   const expected = createHmac("sha256", secret).update(rawBody).digest("hex");
   return signature === expected;

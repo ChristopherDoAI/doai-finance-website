@@ -34,6 +34,15 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Body size check
+  const contentLength = parseInt(req.headers.get("content-length") || "0", 10);
+  if (contentLength > 50_000) {
+    return new Response(
+      JSON.stringify({ error: "Request too large" }),
+      { status: 413, headers: { "Content-Type": "application/json" } }
+    );
+  }
+
   // Parse and validate request body
   let body: ChatRequest;
   try {

@@ -291,7 +291,7 @@ export default function ChatWidget() {
                   </div>
                 )}
                 <div
-                  className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-sm font-body leading-relaxed ${msg.role === "user"
+                  className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-sm font-body leading-relaxed break-words overflow-hidden ${msg.role === "user"
                     ? "bg-accent text-white font-medium rounded-br-sm"
                     : "bg-card border border-border text-text-secondary rounded-bl-sm"
                     }`}
@@ -319,7 +319,7 @@ export default function ChatWidget() {
                 <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">
                   D
                 </div>
-                <div className="max-w-[80%] px-3.5 py-2.5 rounded-2xl rounded-bl-sm text-sm font-body leading-relaxed bg-card border border-border text-text-secondary">
+                <div className="max-w-[80%] px-3.5 py-2.5 rounded-2xl rounded-bl-sm text-sm font-body leading-relaxed break-words overflow-hidden bg-card border border-border text-text-secondary">
                   {formatMessage(streamingContent)}
                   <span className="inline-block w-1 h-4 bg-accent/60 animate-pulse ml-0.5 align-text-bottom" />
                 </div>
