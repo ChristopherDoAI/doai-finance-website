@@ -6,8 +6,8 @@ import clsx from "clsx";
 const navLinks = [
   { label: "Services", href: "#services" },
   { label: "How it works", href: "#how-it-works" },
-  { label: "Results", href: "#results" },
-  { label: "Testimonials", href: "#testimonials" },
+  //{ label: "Results", href: "#results" },
+  //{ label: "Testimonials", href: "#testimonials" },
 ];
 
 export default function Navbar() {
