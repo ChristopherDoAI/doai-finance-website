@@ -49,28 +49,18 @@ export default function BookingSection() {
   ];
 
   return (
-    <section id="booking" className="py-28 bg-surface relative overflow-hidden">
-      {/* Decorative glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.04) 0%, transparent 60%)",
-        }}
-      />
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10">
+    <section id="booking" className="py-section bg-surface relative overflow-hidden">
+      <div className="section-container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left: copy */}
           <div>
-            <span className="text-xs font-display font-semibold tracking-[0.2em] uppercase text-accent mb-3 block">
+            <span className="text-sm font-semibold text-primary uppercase tracking-wider mb-3 block">
               Let&apos;s talk
             </span>
-            <h2 className="font-display font-extrabold text-display-lg text-text-primary mb-6 leading-tight">
+            <h2 className="font-display font-bold text-display-lg text-text-primary mb-6 leading-tight">
               Book your free
               <br />
-              <span className="gradient-text">strategy call.</span>
+              <span className="text-primary">strategy call.</span>
             </h2>
             <p className="font-body text-text-secondary leading-relaxed mb-10 max-w-md">
               In 30 minutes we&apos;ll work out exactly how much revenue you&apos;re
@@ -98,7 +88,7 @@ export default function BookingSection() {
             <button
               onClick={openCalendly}
               disabled={!calendlyReady}
-              className="group h-14 px-8 rounded-full bg-accent text-white font-display font-bold tracking-tight text-base hover:bg-accent-light active:scale-95 transition-all duration-150 shadow-accent-glow flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group h-14 px-8 rounded-lg bg-primary text-white font-display font-semibold tracking-tight text-base hover:bg-primary-dark active:scale-[0.98] transition-all duration-150 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {calendlyReady ? (
                 <>
@@ -121,7 +111,7 @@ export default function BookingSection() {
           <div className="rounded-2xl overflow-hidden border border-border bg-card min-h-[600px] flex items-stretch">
             <div
               className="calendly-inline-widget w-full"
-              data-url={`${calendlyUrl}?hide_gdpr_banner=1&background_color=FFFFFF&text_color=0F172A&primary_color=6366F1`}
+              data-url={`${calendlyUrl}?hide_gdpr_banner=1&background_color=FFFFFF&text_color=111111&primary_color=0D654A`}
               style={{ minWidth: "320px", height: "680px" }}
             />
             {/* Calendly inline widget script trigger */}
@@ -131,7 +121,7 @@ export default function BookingSection() {
                   __html: `
                     if (window.Calendly && !document.querySelector('.calendly-inline-widget iframe')) {
                       Calendly.initInlineWidget({
-                        url: '${calendlyUrl}?hide_gdpr_banner=1&background_color=FFFFFF&text_color=0F172A&primary_color=6366F1',
+                        url: '${calendlyUrl}?hide_gdpr_banner=1&background_color=FFFFFF&text_color=111111&primary_color=0D654A',
                         parentElement: document.querySelector('.calendly-inline-widget'),
                         prefill: {},
                         utm: {}

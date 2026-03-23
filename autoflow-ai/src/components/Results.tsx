@@ -24,57 +24,38 @@ export default function Results() {
   }, []);
 
   return (
-    <section id="results" ref={ref} className="py-20 border-y border-border bg-surface relative overflow-hidden">
-      {/* Scrolling ticker on large screens */}
-      <div className="hidden lg:flex items-center overflow-hidden">
-        <div
-          className={`flex items-center gap-16 whitespace-nowrap transition-all duration-700 ${
-            inView ? "animate-[ticker_30s_linear_infinite]" : ""
-          }`}
-          style={{
-            animation: "ticker 30s linear infinite",
-          }}
-        >
-          {[...metrics, ...metrics].map((m, i) => (
-            <div key={i} className="flex items-center gap-16 flex-shrink-0">
-              <div className="flex flex-col items-center gap-1">
-                <span className="font-display font-extrabold text-3xl text-text-primary tracking-tight">
-                  {m.number}
-                </span>
-                <span className="text-xs font-body text-text-muted text-center max-w-[160px]">
-                  {m.label}
-                </span>
-              </div>
-              <span className="text-border text-2xl font-thin select-none">|</span>
+    <section id="results" className="py-section">
+      <div className="section-container">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <span className="text-sm font-semibold text-primary uppercase tracking-wider mb-3 block">
+            Proven results
+          </span>
+          <h2 className="font-display font-bold text-display-lg text-text-primary">
+            The results speak for themselves
+          </h2>
+        </div>
+
+        {/* Stat cards */}
+        <div ref={ref} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {metrics.map((m, i) => (
+            <div
+              key={i}
+              className={`bg-white border border-border rounded-2xl p-6 text-center transition-all duration-500 hover:shadow-card-hover ${
+                inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+              style={{ transitionDelay: inView ? `${i * 80}ms` : "0ms" }}
+            >
+              <span className="block font-display font-bold text-3xl lg:text-4xl text-primary tracking-tight mb-2">
+                {m.number}
+              </span>
+              <span className="block text-xs text-text-muted leading-tight">
+                {m.label}
+              </span>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Mobile / fallback grid */}
-      <div className="lg:hidden max-w-7xl mx-auto px-6 grid grid-cols-2 gap-6">
-        {metrics.map((m, i) => (
-          <div
-            key={i}
-            className={`flex flex-col gap-1 transition-all duration-500 ${
-              inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-            style={{ transitionDelay: `${i * 80}ms` }}
-          >
-            <span className="font-display font-extrabold text-2xl text-text-primary tracking-tight">
-              {m.number}
-            </span>
-            <span className="text-xs font-body text-text-muted leading-tight">{m.label}</span>
-          </div>
-        ))}
-      </div>
-
-      <style jsx>{`
-        @keyframes ticker {
-          from { transform: translateX(0); }
-          to { transform: translateX(-50%); }
-        }
-      `}</style>
     </section>
   );
 }

@@ -72,6 +72,13 @@ export default function ChatWidget() {
   // Lead capture — driven by AI, saved silently when [LEAD:{...}] marker detected
   const leadSavedRef = useRef(false);
 
+  // Listen for external "open chat" events (e.g. from Hero CTA)
+  useEffect(() => {
+    const handleOpenChat = () => setOpen(true);
+    window.addEventListener("doai:open-chat", handleOpenChat);
+    return () => window.removeEventListener("doai:open-chat", handleOpenChat);
+  }, []);
+
   useEffect(() => {
     if (open) {
       setUnread(0);
@@ -248,7 +255,7 @@ export default function ChatWidget() {
       {/* Chat panel */}
       {open && (
         <div
-          className="chat-panel fixed bottom-24 right-4 md:right-6 z-50 w-[calc(100vw-2rem)] max-w-sm bg-surface border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+          className="chat-panel fixed bottom-[88px] md:bottom-[104px] xl:bottom-[120px] right-4 md:right-6 z-50 w-[calc(100vw-2rem)] max-w-sm bg-surface border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
           style={{ height: "520px" }}
           role="dialog"
           aria-label="DoAi chat"
@@ -394,21 +401,21 @@ export default function ChatWidget() {
       {/* Floating trigger button */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-5 right-4 md:right-6 z-50 w-14 h-14 rounded-full bg-accent text-white shadow-accent-glow hover:bg-accent-light active:scale-95 transition-all duration-150 flex items-center justify-center"
+        className="fixed bottom-5 right-4 md:right-6 z-50 w-14 h-14 md:w-[72px] md:h-[72px] xl:w-[88px] xl:h-[88px] rounded-full bg-accent text-white shadow-accent-glow hover:bg-accent-light active:scale-95 transition-all duration-150 flex items-center justify-center"
         aria-label={open ? "Close chat" : "Open chat"}
       >
         {open ? (
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <svg className="w-5 h-5 md:w-7 md:h-7 xl:w-8 xl:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         ) : (
-          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-6 h-6 md:w-8 md:h-8 xl:w-9 xl:h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
           </svg>
         )}
         {/* Unread badge */}
         {!open && unread > 0 && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center border-2 border-base">
+          <span className="absolute -top-1 -right-1 w-5 h-5 md:w-6 md:h-6 xl:w-7 xl:h-7 rounded-full bg-red-500 text-white text-xs md:text-sm xl:text-base font-bold flex items-center justify-center border-2 xl:border-[3px] border-base">
             {unread}
           </span>
         )}

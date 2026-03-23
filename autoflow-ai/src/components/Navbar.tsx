@@ -6,8 +6,8 @@ import clsx from "clsx";
 const navLinks = [
   { label: "Services", href: "#services" },
   { label: "How it works", href: "#how-it-works" },
-  //{ label: "Results", href: "#results" },
-  //{ label: "Testimonials", href: "#testimonials" },
+  {/* { label: "Results", href: "#results" }, */ },
+  {/* { label: "Testimonials", href: "#testimonials" }, */ }
 ];
 
 export default function Navbar() {
@@ -31,22 +31,22 @@ export default function Navbar() {
       className={clsx(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-white/80 backdrop-blur-md border-b border-border shadow-sm"
+          ? "bg-white/90 backdrop-blur-lg border-b border-border shadow-sm"
           : "bg-transparent"
       )}
     >
-      <nav className="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+      <nav className="max-w-content mx-auto px-8 h-[72px] flex items-center justify-between">
         {/* Logo */}
         <a
           href="#"
           className="font-display font-bold text-xl tracking-tight flex items-center gap-2 group"
           aria-label="DoAi home"
         >
-          <span className="w-7 h-7 rounded bg-accent flex items-center justify-center text-base text-sm font-black text-white transition-transform duration-200 group-hover:scale-110">
+          <span className="w-7 h-7 rounded-md bg-primary flex items-center justify-center text-sm font-black text-white transition-transform duration-200 group-hover:scale-110">
             D
           </span>
           <span className="text-text-primary">
-            Do<span className="text-accent">Ai</span>
+            Do<span className="text-primary">Ai</span>
           </span>
         </a>
 
@@ -56,7 +56,7 @@ export default function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="text-sm font-body text-text-secondary hover:text-text-primary transition-colors duration-200 underline-accent"
+                className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-200"
               >
                 {link.label}
               </a>
@@ -68,7 +68,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-4">
           <button
             onClick={handleBooking}
-            className="h-9 px-5 rounded-full bg-accent text-white text-sm font-display font-semibold tracking-tight hover:bg-accent-light active:scale-95 transition-all duration-150 animate-pulse-accent"
+            className="h-10 px-5 rounded-lg bg-primary text-white text-sm font-display font-semibold tracking-tight hover:bg-primary-dark active:scale-[0.98] transition-all duration-150"
           >
             Book a free call
           </button>
@@ -105,17 +105,17 @@ export default function Navbar() {
       {/* Mobile menu */}
       <div
         className={clsx(
-          "md:hidden overflow-hidden transition-all duration-300 bg-surface border-b border-border",
+          "md:hidden overflow-hidden transition-all duration-300 bg-white/95 backdrop-blur-lg border-b border-border",
           menuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
         )}
       >
-        <ul className="px-6 py-4 flex flex-col gap-4">
+        <ul className="px-8 py-4 flex flex-col gap-4">
           {navLinks.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="block text-base font-body text-text-secondary hover:text-text-primary transition-colors"
+                className="block text-base font-medium text-text-secondary hover:text-text-primary transition-colors"
               >
                 {link.label}
               </a>
@@ -124,7 +124,7 @@ export default function Navbar() {
           <li className="pt-2 border-t border-border">
             <button
               onClick={handleBooking}
-              className="w-full h-11 rounded-full bg-accent text-white font-display font-semibold tracking-tight hover:bg-accent-light transition-colors"
+              className="w-full h-11 rounded-lg bg-primary text-white font-display font-semibold tracking-tight hover:bg-primary-dark transition-colors"
             >
               Book a free call
             </button>
