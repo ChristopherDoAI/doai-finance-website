@@ -9,19 +9,40 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Brand — deep green (Sierra-inspired)
+        primary: "#0D654A",
+        "primary-dark": "#094D38",
+        "primary-light": "#14A06E",
+
+        // Alias so ChatWidget keeps working untouched
+        accent: "#0D654A",
+        "accent-dark": "#094D38",
+        "accent-light": "#14A06E",
+
+        // Surfaces
         base: "#FFFFFF",
-        surface: "#F8F9FA",
+        surface: "#F7F7F5",
+        "surface-dark": "#111111",
         card: "#FFFFFF",
-        "card-hover": "#F8F9FA",
-        border: "#E5E7EB",
-        "border-light": "#D1D5DB",
-        accent: "#6366F1",
-        "accent-dark": "#4F46E5",
-        "accent-light": "#818CF8",
+        "card-hover": "#F7F7F5",
+
+        // Feature-card tints
+        "card-green": "#E8F5E9",
+        "card-blue": "#E3F2FD",
+        "card-pink": "#FCE4EC",
+        "card-orange": "#FFF3E0",
+
+        // Borders
+        border: "#E8E8E5",
+        "border-light": "#D4D4D0",
+
+        // Text
         text: {
-          primary: "#0F172A",
-          secondary: "#64748B",
-          muted: "#94A3B8",
+          primary: "#111111",
+          secondary: "#555555",
+          muted: "#999999",
+          "on-dark": "#FFFFFF",
+          "on-dark-muted": "#AAAAAA",
         },
       },
       fontFamily: {
@@ -29,17 +50,30 @@ const config: Config = {
         body: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       fontSize: {
-        "display-xl": ["clamp(3rem, 7vw, 6rem)", { lineHeight: "1.0", letterSpacing: "-0.03em" }],
-        "display-lg": ["clamp(2.25rem, 5vw, 4rem)", { lineHeight: "1.05", letterSpacing: "-0.025em" }],
-        "display-md": ["clamp(1.75rem, 3.5vw, 2.75rem)", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
+        "display-xl": [
+          "clamp(2.75rem, 5.5vw, 4.5rem)",
+          { lineHeight: "1.08", letterSpacing: "-0.025em" },
+        ],
+        "display-lg": [
+          "clamp(2rem, 4vw, 3rem)",
+          { lineHeight: "1.12", letterSpacing: "-0.02em" },
+        ],
+        "display-md": [
+          "clamp(1.5rem, 3vw, 2.25rem)",
+          { lineHeight: "1.15", letterSpacing: "-0.015em" },
+        ],
+      },
+      maxWidth: {
+        content: "1160px",
+      },
+      spacing: {
+        section: "7rem",
+        "section-lg": "9rem",
       },
       animation: {
         "fade-up": "fadeUp 0.6s ease forwards",
         "fade-in": "fadeIn 0.5s ease forwards",
         "slide-in-right": "slideInRight 0.4s ease forwards",
-        "spin-slow": "spin 8s linear infinite",
-        "pulse-accent": "pulseAccent 2s ease-in-out infinite",
-        "count-up": "countUp 0.8s ease forwards",
       },
       keyframes: {
         fadeUp: {
@@ -54,23 +88,11 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateX(20px)" },
           "100%": { opacity: "1", transform: "translateX(0)" },
         },
-        pulseAccent: {
-          "0%, 100%": { boxShadow: "0 0 0 0 rgba(99, 102, 241, 0.4)" },
-          "50%": { boxShadow: "0 0 0 8px rgba(99, 102, 241, 0)" },
-        },
-      },
-      backgroundImage: {
-        "grid-pattern":
-          "linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)",
-      },
-      backgroundSize: {
-        "grid": "40px 40px",
       },
       boxShadow: {
-        "accent-glow": "0 4px 24px rgba(99, 102, 241, 0.12)",
-        "accent-glow-sm": "0 2px 12px rgba(99, 102, 241, 0.08)",
-        "card": "0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04)",
-        "card-hover": "0 4px 24px rgba(0,0,0,0.08), 0 0 0 1px rgba(99,102,241,0.1)",
+        card: "0 1px 3px rgba(0,0,0,0.04), 0 4px 20px rgba(0,0,0,0.03)",
+        "card-hover": "0 8px 30px rgba(0,0,0,0.08)",
+        elevated: "0 12px 40px rgba(0,0,0,0.1)",
       },
     },
   },

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* ─── Custom properties ──────────────────────────────── */
 :root {
   --font-inter: "Inter", system-ui, sans-serif;
@@ -22,7 +26,7 @@ html {
 
 body {
   background-color: #FFFFFF;
-  color: #0F172A;
+  color: #111111;
   font-family: var(--font-inter);
   overflow-x: hidden;
 }
@@ -31,26 +35,29 @@ body {
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #F8F9FA;
+  background: #F7F7F5;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #D1D5DB;
+  background: #D4D4D0;
   border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #6366F1;
+  background: #0D654A;
 }
 
 /* ─── Selection ──────────────────────────────────────── */
 ::selection {
-  background: rgba(99, 102, 241, 0.15);
-  color: #0F172A;
+  background: rgba(13, 101, 74, 0.15);
+  color: #111111;
 }
 
 /* ─── Focus ring ─────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid #6366F1;
+  outline: 2px solid #0D654A;
   outline-offset: 3px;
 }
 
@@ -60,26 +67,39 @@ body {
     text-wrap: balance;
   }
 
-  .animate-delay-100 { animation-delay: 100ms; }
-  .animate-delay-200 { animation-delay: 200ms; }
-  .animate-delay-300 { animation-delay: 300ms; }
-  .animate-delay-400 { animation-delay: 400ms; }
-  .animate-delay-500 { animation-delay: 500ms; }
-  .animate-delay-600 { animation-delay: 600ms; }
-  .animate-delay-700 { animation-delay: 700ms; }
-  .animate-delay-800 { animation-delay: 800ms; }
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animate-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
+
+  .animate-delay-600 {
+    animation-delay: 600ms;
+  }
 
   .opacity-0-init {
     opacity: 0;
   }
-}
 
-/* ─── Gradient text ──────────────────────────────────── */
-.gradient-text {
-  background: linear-gradient(135deg, #6366F1 0%, #818CF8 50%, #6366F1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  .section-container {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
 }
 
 /* ─── Accent underline decoration ────────────────────── */
@@ -87,27 +107,22 @@ body {
   position: relative;
   display: inline-block;
 }
+
 .underline-accent::after {
   content: "";
   position: absolute;
   bottom: -4px;
   left: 0;
   width: 100%;
-  height: 3px;
-  background: #6366F1;
+  height: 2px;
+  background: #0D654A;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
 }
+
 .underline-accent:hover::after {
   transform: scaleX(1);
-}
-
-/* ─── Section grid overlay ───────────────────────────── */
-.grid-bg {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
-  background-size: 48px 48px;
 }
 
 /* ─── Calendly embed overrides ───────────────────────── */
@@ -120,34 +135,28 @@ body {
 .chat-panel {
   animation: slideUpPanel 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
+
 @keyframes slideUpPanel {
   from {
     opacity: 0;
     transform: translateY(20px) scale(0.97);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-/* ─── Number counter animation ───────────────────────── */
-@keyframes countUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ─── Stagger reveal for section children ─────────────── */
-.stagger-children > * {
-  opacity: 0;
-  animation: fadeUp 0.55s ease forwards;
-}
-.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
-.stagger-children > *:nth-child(2) { animation-delay: 120ms; }
-.stagger-children > *:nth-child(3) { animation-delay: 240ms; }
-.stagger-children > *:nth-child(4) { animation-delay: 360ms; }
-
+/* ─── Reveal animation ────────────────────────────────── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

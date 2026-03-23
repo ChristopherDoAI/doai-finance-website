@@ -46,44 +46,17 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-border bg-surface">
-      {/* Top CTA band */}
-      <div className="border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <h3 className="font-display font-extrabold text-2xl text-text-primary mb-1">
-              Ready to stop leaving money on the table?
-            </h3>
-            <p className="font-body text-sm text-text-secondary">
-              Book a free 30-minute strategy call. No commitment, no hard sell.
-            </p>
-          </div>
-          <a
-            href="#booking"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
-            }}
-            className="flex-shrink-0 h-12 px-7 rounded-full bg-accent text-white font-display font-bold tracking-tight text-sm hover:bg-accent-light active:scale-95 transition-all duration-150 flex items-center gap-2 shadow-accent-glow"
-          >
-            Book your free call
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </a>
-        </div>
-      </div>
-
       {/* Main footer grid */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+      <div className="section-container py-20">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 lg:gap-16">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <a href="#" className="inline-flex items-center gap-2 mb-4 group">
-              <span className="w-7 h-7 rounded bg-accent flex items-center justify-center text-sm font-black text-white transition-transform duration-200 group-hover:scale-110">
+              <span className="w-7 h-7 rounded-md bg-primary flex items-center justify-center text-sm font-black text-white transition-transform duration-200 group-hover:scale-110">
                 D
               </span>
               <span className="font-display font-bold text-lg text-text-primary">
-                Do<span className="text-accent">Ai</span>
+                Do<span className="text-primary">Ai</span>
               </span>
             </a>
             <p className="font-body text-sm text-text-muted leading-relaxed max-w-xs mb-6">
@@ -98,7 +71,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="w-8 h-8 rounded-lg border border-border flex items-center justify-center text-text-muted hover:text-accent hover:border-accent transition-all duration-150"
+                  className="w-8 h-8 rounded-lg border border-border flex items-center justify-center text-text-muted hover:text-primary hover:border-primary transition-all duration-150"
                 >
                   {s.icon}
                 </a>
@@ -109,7 +82,7 @@ export default function Footer() {
           {/* Link columns */}
           {Object.entries(footerLinks).map(([heading, links]) => (
             <div key={heading}>
-              <h4 className="font-display font-semibold text-xs tracking-[0.15em] uppercase text-text-muted mb-5">
+              <h4 className="font-display font-semibold text-xs tracking-widest uppercase text-text-muted mb-5">
                 {heading}
               </h4>
               <ul className="flex flex-col gap-3">
@@ -139,13 +112,13 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-border">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="section-container py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="font-body text-xs text-text-muted">
-            © {year} DoAi Ltd. All rights reserved.
+            &copy; {year} DoAi Ltd. All rights reserved.
           </p>
           <p className="font-body text-xs text-text-muted flex items-center gap-1.5">
             Built with
-            <span className="text-accent">♥</span>
+            <span className="text-primary">&hearts;</span>
             for ambitious business owners
           </p>
         </div>
