@@ -4,11 +4,10 @@ import Image from "next/image";
 
 const footerLinks = {
   Services: [
-    { label: "GoHighLevel CRM", href: "#services" },
-    { label: "WhatsApp/SMS Bots", href: "#services" },
-    { label: "Voice AI Agents", href: "#services" },
-    { label: "AI Audits", href: "#services" },
-    { label: "Custom Projects", href: "#services" },
+    { label: "AI Voice Agent", href: "#services" },
+    { label: "24/7 Chat Agent", href: "#services" },
+    { label: "Lead Generation", href: "#services" },
+    { label: "Process Automation", href: "#services" },
   ],
   Company: [
     { label: "How it works", href: "#how-it-works" },

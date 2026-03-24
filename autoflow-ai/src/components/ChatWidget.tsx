@@ -48,7 +48,7 @@ const INITIAL_MESSAGE: Message = {
   id: "0",
   role: "assistant",
   content:
-    "Hi there! 👋 I'm Monty, DoAi's AI assistant. I can tell you about our services, answer questions, or help you book a call with the team. What can I help you with today?",
+    "Hi there! 👋 I'm DoAi's AI assistant. I can tell you about our services, answer questions, or help you book a call with the team. What can I help you with today?",
   timestamp: new Date(),
 };
 
@@ -258,16 +258,16 @@ export default function ChatWidget() {
           className="chat-panel fixed bottom-[88px] md:bottom-[104px] xl:bottom-[120px] right-4 md:right-6 z-50 w-[calc(100vw-2rem)] max-w-sm bg-surface border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
           style={{ height: "520px" }}
           role="dialog"
-          aria-label="Chat with Monty"
+          aria-label="DoAi chat"
         >
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3.5 border-b border-border bg-card">
             <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white font-display font-bold text-sm">
-              M
+              D
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-display font-semibold text-sm text-text-primary leading-none">
-                Monty
+                DoAi Assistant
               </p>
               <p className="text-xs font-body text-text-muted mt-0.5 flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" />
@@ -294,7 +294,7 @@ export default function ChatWidget() {
               >
                 {msg.role === "assistant" && (
                   <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center text-white font-bold text-xs flex-shrink-0 mt-0.5">
-                    M
+                    D
                   </div>
                 )}
                 <div
