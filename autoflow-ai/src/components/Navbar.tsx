@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import clsx from "clsx";
+import Image from "next/image";
 
 const navLinks = [
   { label: "Services", href: "#services" },
@@ -42,9 +43,13 @@ export default function Navbar() {
           className="font-display font-bold text-xl tracking-tight flex items-center gap-2 group"
           aria-label="DoAi home"
         >
-          <span className="w-7 h-7 rounded-md bg-primary flex items-center justify-center text-sm font-black text-white transition-transform duration-200 group-hover:scale-110">
-            D
-          </span>
+          <Image
+            src="/logo.png"
+            alt="DoAi logo"
+            width={147}
+            height={147}
+            className="w-9 h-9 transition-transform duration-200 group-hover:scale-110"
+          />
           <span className="text-text-primary">
             Do<span className="text-primary">Ai</span>
           </span>
