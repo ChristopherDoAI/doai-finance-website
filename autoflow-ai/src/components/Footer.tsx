@@ -13,11 +13,6 @@ const footerLinks = {
     { label: "Testimonials", href: "#testimonials" },
     { label: "Book a call", href: "#booking" },
   ],
-  Legal: [
-    { label: "Privacy policy", href: "/privacy" },
-    { label: "Terms of service", href: "/terms" },
-    { label: "Cookie policy", href: "/cookies" },
-  ],
 };
 
 const socials = [
@@ -47,8 +42,8 @@ export default function Footer() {
   return (
     <footer className="border-t border-border bg-surface">
       {/* Main footer grid */}
-      <div className="section-container py-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 lg:gap-16">
+      <div className="section-container py-24 lg:py-28">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-12 lg:gap-20">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <a href="#" className="inline-flex items-center gap-2 mb-4 group">
@@ -59,7 +54,7 @@ export default function Footer() {
                 Do<span className="text-primary">Ai</span>
               </span>
             </a>
-            <p className="font-body text-sm text-text-muted leading-relaxed max-w-xs mb-6">
+            <p className="font-body text-sm text-text-muted leading-relaxed max-w-xs mb-8">
               AI automation that answers calls, qualifies leads, and fills diaries — built for business owners who are too busy to miss an opportunity.
             </p>
             {/* Socials */}
@@ -82,10 +77,10 @@ export default function Footer() {
           {/* Link columns */}
           {Object.entries(footerLinks).map(([heading, links]) => (
             <div key={heading}>
-              <h4 className="font-display font-semibold text-xs tracking-widest uppercase text-text-muted mb-5">
+              <h4 className="font-display font-semibold text-xs tracking-widest uppercase text-text-muted mb-6">
                 {heading}
               </h4>
-              <ul className="flex flex-col gap-3">
+              <ul className="flex flex-col gap-4">
                 {links.map((link) => (
                   <li key={link.label}>
                     <a
@@ -112,7 +107,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-border">
-        <div className="section-container py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="section-container py-6 lg:py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="font-body text-xs text-text-muted">
             &copy; {year} DoAi Ltd. All rights reserved.
           </p>
