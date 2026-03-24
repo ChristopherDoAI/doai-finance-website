@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
 import { DOAI_SYSTEM_PROMPT } from "@/lib/system-prompt";
+import { fetchMontyContext } from "@/lib/notion";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
@@ -18,6 +19,28 @@ interface ChatMessage {
 
 interface ChatRequest {
   messages: ChatMessage[];
+}
+
+// Cache the built system prompt for a short period
+let cachedSystemPrompt: string | null = null;
+let promptCacheTime = 0;
+const PROMPT_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+async function getSystemPrompt(): Promise<string> {
+  if (cachedSystemPrompt && Date.now() - promptCacheTime < PROMPT_CACHE_TTL) {
+    return cachedSystemPrompt;
+  }
+
+  let notionContext = "";
+  try {
+    notionContext = await fetchMontyContext();
+  } catch (err) {
+    console.warn("[Chat API] Failed to fetch Notion context, using base prompt:", err);
+  }
+
+  cachedSystemPrompt = DOAI_SYSTEM_PROMPT.replace("{NOTION_CONTEXT}", notionContext);
+  promptCacheTime = Date.now();
+  return cachedSystemPrompt;
 }
 
 export async function POST(req: NextRequest) {
@@ -65,9 +88,12 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Build system prompt with Notion context
+  const systemPrompt = await getSystemPrompt();
+
   // Sanitize: only keep role/content, limit history, cap message length
   const messages: OpenAI.ChatCompletionMessageParam[] = [
-    { role: "system", content: DOAI_SYSTEM_PROMPT },
+    { role: "system", content: systemPrompt },
     ...body.messages.slice(-20).map(({ role, content }) => ({
       role: role as "user" | "assistant",
       content: content.slice(0, 2000),
