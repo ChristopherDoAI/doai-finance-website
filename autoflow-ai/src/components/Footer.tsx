@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 const footerLinks = {
   Services: [
     { label: "AI Voice Agent", href: "#services" },
@@ -47,9 +49,13 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <a href="#" className="inline-flex items-center gap-2 mb-4 group">
-              <span className="w-7 h-7 rounded-md bg-primary flex items-center justify-center text-sm font-black text-white transition-transform duration-200 group-hover:scale-110">
-                D
-              </span>
+              <Image
+                src="/logo.png"
+                alt="DoAi logo"
+                width={147}
+                height={147}
+                className="w-9 h-9 transition-transform duration-200 group-hover:scale-110"
+              />
               <span className="font-display font-bold text-lg text-text-primary">
                 Do<span className="text-primary">Ai</span>
               </span>
