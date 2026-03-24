@@ -20,9 +20,9 @@ export default function Home() {
       {/* <Results /> */}
       {/* <Testimonials /> */}
       <HowItWorks />
-      <TrustBadges />
-      <BookingSection />
       <DarkCTA />
+      <BookingSection />
+      <TrustBadges />
       <Footer />
     </main>
   );

@@ -7,21 +7,21 @@ const testimonials = [
     quote:
       "I was losing two or three jobs a week just from missed calls while I was on site. DoAi's voice agent now handles everything. It even books them in before I've put my tools down.",
     name: "James Hartley",
-    role: "Sole trader — Electrical",
+    role: "Sole trader - Electrical",
     initials: "JH",
   },
   {
     quote:
       "The chatbot on our website has completely changed how we handle enquiries. It qualifies leads before we even speak to them, and the quality of calls we do take has gone through the roof.",
     name: "Sarah Okafor",
-    role: "Director — Roofing & Property Maintenance",
+    role: "Director - Roofing & Property Maintenance",
     initials: "SO",
   },
   {
     quote:
       "Honestly I was sceptical. But they set everything up within 48 hours and within a week I had three bookings from calls that would have just rung out. It's paid for itself ten times over.",
     name: "Mike Brannigan",
-    role: "Owner — Plumbing & Heating",
+    role: "Owner - Plumbing & Heating",
     initials: "MB",
   },
 ];

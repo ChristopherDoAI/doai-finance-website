@@ -33,7 +33,7 @@ export default function Hero() {
               style={{ animation: "fadeUp 0.55s 160ms ease forwards", opacity: 0 }}
             >
               DoAi deploys intelligent agents that answer your calls, qualify
-              your leads, and book your diary — while you&apos;re on the job, in
+              your leads, and book your diary - while you&apos;re on the job, in
               a meeting, or sound asleep.
             </p>
 

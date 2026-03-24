@@ -61,7 +61,7 @@ export default function Footer() {
               </span>
             </a>
             <p className="font-body text-sm text-text-muted leading-relaxed max-w-xs mb-8">
-              AI automation that answers calls, qualifies leads, and fills diaries — built for business owners who are too busy to miss an opportunity.
+              AI automation that answers calls, qualifies leads, and fills diaries - built for business owners who are too busy to miss an opportunity.
             </p>
             {/* Socials */}
             <div className="flex items-center gap-3">
@@ -118,7 +118,7 @@ export default function Footer() {
             &copy; {year} DoAi Ltd. All rights reserved.
           </p>
           <p className="font-body text-xs text-text-muted flex items-center gap-1.5">
-            Built with
+            Built With
             <span className="text-primary">&hearts;</span>
             for ambitious business owners
           </p>

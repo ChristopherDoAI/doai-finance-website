@@ -45,7 +45,7 @@ export default function BookingSection() {
     "Free, no-obligation 30-minute call",
     "We map exactly which automations will move the needle for your business",
     "You receive a custom build plan with honest pricing",
-    "No pushy sales — if it&apos;s not right for you, we&apos;ll tell you",
+    "No pushy sales - if it&apos;s not right for you, we&apos;ll tell you",
   ];
 
   return (
@@ -55,7 +55,7 @@ export default function BookingSection() {
           {/* Left: copy */}
           <div>
             <span className="text-sm font-semibold text-primary uppercase tracking-wider mb-3 block">
-              Let&apos;s talk
+              Let&apos;s Talk
             </span>
             <h2 className="font-display font-bold text-display-lg text-text-primary mb-6 leading-tight">
               Book your free
@@ -64,7 +64,7 @@ export default function BookingSection() {
             </h2>
             <p className="font-body text-text-secondary leading-relaxed mb-10 max-w-md">
               In 30 minutes we&apos;ll work out exactly how much revenue you&apos;re
-              leaving on the table every week — and show you precisely how AI
+              leaving on the table every week - and show you precisely how AI
               automation fixes it.
             </p>
 
@@ -103,7 +103,7 @@ export default function BookingSection() {
             </button>
 
             <p className="mt-4 text-xs font-body text-text-muted">
-              Typically available within 1–2 business days.
+              Typically available within 1-2 business days.
             </p>
           </div>
 
