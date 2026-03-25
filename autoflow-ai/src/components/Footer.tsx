@@ -4,10 +4,11 @@ import Image from "next/image";
 
 const footerLinks = {
   Services: [
-    { label: "AI Voice Agent", href: "#services" },
-    { label: "24/7 Chat Agent", href: "#services" },
-    { label: "Lead Generation", href: "#services" },
-    { label: "Process Automation", href: "#services" },
+    { label: "GoHighLevel CRM", href: "#services" },
+    { label: "WhatsApp/SMS Bots", href: "#services" },
+    { label: "Voice AI Agents", href: "#services" },
+    { label: "AI Audits", href: "#services" },
+    { label: "Custom Projects", href: "#services" },
   ],
   Company: [
     { label: "How it works", href: "#how-it-works" },
@@ -61,7 +62,7 @@ export default function Footer() {
               </span>
             </a>
             <p className="font-body text-sm text-text-muted leading-relaxed max-w-xs mb-8">
-              AI automation that answers calls, qualifies leads, and fills diaries — built for business owners who are too busy to miss an opportunity.
+              AI automation that answers calls, qualifies leads, and fills diaries - built for business owners who are too busy to miss an opportunity.
             </p>
             {/* Socials */}
             <div className="flex items-center gap-3">
@@ -118,7 +119,7 @@ export default function Footer() {
             &copy; {year} DoAi Ltd. All rights reserved.
           </p>
           <p className="font-body text-xs text-text-muted flex items-center gap-1.5">
-            Built with
+            Built With
             <span className="text-primary">&hearts;</span>
             for ambitious business owners
           </p>

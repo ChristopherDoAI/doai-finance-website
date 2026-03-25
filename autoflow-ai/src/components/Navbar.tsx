@@ -75,7 +75,7 @@ export default function Navbar() {
             onClick={handleBooking}
             className="h-10 px-5 rounded-lg bg-primary text-white text-sm font-display font-semibold tracking-tight hover:bg-primary-dark active:scale-[0.98] transition-all duration-150"
           >
-            Book a free call
+            Book a demo
           </button>
         </div>
 
@@ -131,7 +131,7 @@ export default function Navbar() {
               onClick={handleBooking}
               className="w-full h-11 rounded-lg bg-primary text-white font-display font-semibold tracking-tight hover:bg-primary-dark transition-colors"
             >
-              Book a free call
+              Book a demo
             </button>
           </li>
         </ul>

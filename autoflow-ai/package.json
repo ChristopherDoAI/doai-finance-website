@@ -10,6 +10,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@notionhq/client": "^2.2.15",
     "@supabase/supabase-js": "^2.99.2",
     "clsx": "^2.1.1",
     "next": "14.2.3",

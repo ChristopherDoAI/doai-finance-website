@@ -38,10 +38,10 @@ export default function TrustBadges() {
     <section className="py-20">
       <div className="section-container text-center">
         <h2 className="font-display font-bold text-display-md text-text-primary mb-4">
-          Trust and reliability
+          Trust And Reliability
         </h2>
         <p className="text-text-secondary text-sm mb-12 max-w-md mx-auto">
-          Built on enterprise-grade infrastructure with security and compliance at every layer.
+          Built on enterprise-grade infrastructure with security and compliance at every layer
         </p>
         <div className="flex flex-wrap items-center justify-center gap-10">
           {badges.map((badge) => (

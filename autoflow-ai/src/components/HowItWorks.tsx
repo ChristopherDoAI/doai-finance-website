@@ -5,21 +5,21 @@ import { useEffect, useRef, useState } from "react";
 const steps = [
   {
     step: "01",
-    title: "We learn your business",
-    body: "In a 45-minute strategy call, we map every scenario your phone and website handle. Your services, your prices, your objections, your tone of voice. This becomes the brain of your AI.",
-    detail: "You talk. We build the knowledge base.",
+    title: "We Learn Your Business",
+    body: "In a 45-minute strategy call, we map every scenario your phone and website handle. Your services, your prices, your objections, your tone of voice. This becomes the brain of your AI",
+    detail: "You talk, we build the knowledge base",
   },
   {
     step: "02",
-    title: "We build & connect your agents",
-    body: "Within 48 hours, your voice agent is live on your phone number and your chat agent is live on your website. Both are rigorously tested before they ever speak to a real customer.",
-    detail: "Live in under two business days.",
+    title: "We Build & Connect Your Agents",
+    body: "Within 1 week, your voice agent is live on your phone number and your chat agent is live on your website. Both are rigorously tested before they ever speak to a real customer",
+    detail: "Live in under one week",
   },
   {
     step: "03",
-    title: "Leads flow into your pipeline",
-    body: "Every interaction — every call, every chat, every booking — is logged, scored, and pushed into your CRM automatically. You check in when you want. The system never sleeps.",
-    detail: "You focus on the work. We handle the rest.",
+    title: "Leads Flow Into Your Pipeline",
+    body: "Every interaction - every call, every chat, every booking - is logged, scored, and pushed into your CRM automatically. You check in when you want. The system never sleeps",
+    detail: "You focus on the work, we handle the rest",
   },
 ];
 
@@ -44,12 +44,12 @@ export default function HowItWorks() {
         {/* Header */}
         <div className="mb-20 text-center">
           <span className="text-xs font-display font-semibold tracking-[0.2em] uppercase text-accent mb-3 block">
-            The process
+            The Process
           </span>
           <h2 className="font-display font-extrabold text-display-lg text-text-primary">
-            Live in 48 hours.
+            Live In 1 Week.
             <br />
-            <span className="text-text-secondary">Here&apos;s exactly how.</span>
+            <span className="text-text-secondary">Here&apos;s Exactly How.</span>
           </h2>
         </div>
 
