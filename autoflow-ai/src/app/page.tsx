@@ -17,12 +17,9 @@ export default function Home() {
       <Hero />
       <LogoBar />
       <Services />
-      {/* <Results /> */}
-      {/* <Testimonials /> */}
       <HowItWorks />
       <DarkCTA />
       <BookingSection />
-      <TrustBadges />
       <Footer />
     </main>
   );

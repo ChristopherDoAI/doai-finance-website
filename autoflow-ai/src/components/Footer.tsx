@@ -12,8 +12,6 @@ const footerLinks = {
   ],
   Company: [
     { label: "How it works", href: "#how-it-works" },
-    { label: "Results", href: "#results" },
-    { label: "Testimonials", href: "#testimonials" },
     { label: "Book a call", href: "#booking" },
   ],
 };
@@ -65,7 +63,7 @@ export default function Footer() {
               AI automation that answers calls, qualifies leads, and fills diaries - built for business owners who are too busy to miss an opportunity.
             </p>
             {/* Socials */}
-            <div className="flex items-center gap-3">
+            {/* <div className="flex items-center gap-3">
               {socials.map((s) => (
                 <a
                   key={s.label}
@@ -78,7 +76,7 @@ export default function Footer() {
                   {s.icon}
                 </a>
               ))}
-            </div>
+            </div> */}
           </div>
 
           {/* Link columns */}
