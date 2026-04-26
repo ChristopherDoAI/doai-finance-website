@@ -49,7 +49,7 @@ export default function BookingSection() {
   ];
 
   return (
-    <section id="booking" className="py-section bg-surface relative overflow-hidden">
+    <section id="booking" className="py-section bg-base relative overflow-hidden">
       <div className="section-container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left: copy */}
@@ -57,7 +57,7 @@ export default function BookingSection() {
             <span className="text-sm font-semibold text-primary uppercase tracking-wider mb-3 block">
               Let&apos;s Talk
             </span>
-            <h2 className="font-display font-bold text-display-lg text-text-primary mb-6 leading-tight">
+            <h2 className="font-display font-bold text-display-lg text-white mb-6 leading-tight">
               Book your free
               <br />
               <span className="text-primary">strategy call.</span>
@@ -70,8 +70,8 @@ export default function BookingSection() {
             <ul className="flex flex-col gap-4 mb-12">
               {benefits.map((b, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <span className="mt-0.5 w-5 h-5 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-3 h-3 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <span className="mt-0.5 w-5 h-5 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-3 h-3 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </span>
@@ -87,7 +87,7 @@ export default function BookingSection() {
             <button
               onClick={openCalendly}
               disabled={!calendlyReady}
-              className="group h-14 px-8 rounded-lg bg-primary text-white font-display font-semibold tracking-tight text-base hover:bg-primary-dark active:scale-[0.98] transition-all duration-150 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group h-14 px-8 rounded-lg bg-primary text-base font-display font-semibold tracking-tight text-base hover:bg-primary-dark active:scale-[0.98] transition-all duration-150 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {calendlyReady ? (
                 <>
@@ -107,10 +107,10 @@ export default function BookingSection() {
           </div>
 
           {/* Right: inline embed widget */}
-          <div className="rounded-2xl overflow-hidden border border-border bg-card min-h-[600px] flex items-stretch">
+          <div className="rounded-2xl overflow-hidden border border-border bg-surface min-h-[600px] flex items-stretch">
             <div
               className="calendly-inline-widget w-full"
-              data-url={`${calendlyUrl}?hide_gdpr_banner=1&background_color=FFFFFF&text_color=111111&primary_color=0D654A`}
+              data-url={`${calendlyUrl}?hide_gdpr_banner=1&background_color=243B58&text_color=FFFFFF&primary_color=FFDB46`}
               style={{ minWidth: "320px", height: "680px" }}
             />
             {/* Calendly inline widget script trigger */}
@@ -120,7 +120,7 @@ export default function BookingSection() {
                   __html: `
                     if (window.Calendly && !document.querySelector('.calendly-inline-widget iframe')) {
                       Calendly.initInlineWidget({
-                        url: '${calendlyUrl}?hide_gdpr_banner=1&background_color=FFFFFF&text_color=111111&primary_color=0D654A',
+                        url: '${calendlyUrl}?hide_gdpr_banner=1&background_color=243B58&text_color=FFFFFF&primary_color=FFDB46',
                         parentElement: document.querySelector('.calendly-inline-widget'),
                         prefill: {},
                         utm: {}
