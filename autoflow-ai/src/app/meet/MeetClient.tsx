@@ -100,7 +100,7 @@ export default function MeetClient() {
               </div>
               <p className="font-semibold text-text-primary mb-1">Got it!</p>
               <p className="text-sm text-text-secondary mb-4">
-                We will be in touch soon. Now grab a slot while you are here.
+                We will be in touch soon. Grab a slot while you are here.
               </p>
               <button
                 onClick={openCalendly}

@@ -40,9 +40,7 @@ export default function MeetPage() {
             AI automation for UK SMEs and sole traders
           </p>
           <p className="text-sm text-text-secondary leading-relaxed max-w-sm mx-auto">
-            We build AI voice agents, chatbots, CRM systems, and process
-            automation that answer your calls, qualify leads, and book your
-            diary 24/7 — without adding headcount.
+            We build custom CRM systems with AI voice agents, chatbots, and marketing automation built in, plus bespoke process automation. Answers your calls, qualifies your leads, books your diary 24/7.
           </p>
         </div>
       </section>
@@ -65,7 +63,7 @@ export default function MeetPage() {
               <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-2">
                 <span className="text-primary font-bold text-sm">JD</span>
               </div>
-              <p className="font-semibold text-sm text-text-primary">Joe Delima</p>
+              <p className="font-semibold text-sm text-text-primary">Joseph Delima</p>
               <p className="text-xs text-text-muted">Commercial Director</p>
             </div>
           </div>

@@ -13,8 +13,8 @@ export default function DarkCTA() {
         </h2>
         <p className="text-text-secondary text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
           Stop leaving revenue on the table. Let our AI agents handle your calls,
-          qualify your leads, and fill your calendar - while you focus on the work
-          that matters
+          qualify your leads, and fill your calendar while you focus on the work
+          that matters.
         </p>
         <button
           onClick={openChat}
