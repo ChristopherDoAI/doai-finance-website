@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const SERVICES_ENDPOINT =
+  process.env.NEXT_PUBLIC_CRM_SERVICES_URL ?? "https://crm.doaisystems.co.uk/api/services";
+
 interface ServiceData {
   title: string;
   headline: string;
@@ -110,7 +113,7 @@ const DEFAULT_ICON = (
   </svg>
 );
 
-// Fallback services in case Notion is unreachable
+// Fallback services used until CRM endpoint (feat/public-services-endpoint) is live
 const FALLBACK_SERVICES: ServiceData[] = [
   {
     title: "DOAI CRM",
@@ -150,7 +153,7 @@ export default function Services() {
   const [services, setServices] = useState<ServiceData[]>(FALLBACK_SERVICES);
 
   useEffect(() => {
-    fetch("/api/notion/services")
+    fetch(SERVICES_ENDPOINT)
       .then((res) => res.json())
       .then((data) => {
         if (data.services && data.services.length > 0) {
