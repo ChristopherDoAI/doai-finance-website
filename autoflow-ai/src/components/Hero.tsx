@@ -32,9 +32,7 @@ export default function Hero() {
               className="font-body text-lg text-text-secondary max-w-lg leading-relaxed mb-8"
               style={{ animation: "fadeUp 0.55s 160ms ease forwards", opacity: 0 }}
             >
-              DoAi deploys intelligent agents that answer your calls, qualify
-              your leads, and book your diary - while you&apos;re on the job, in
-              a meeting, or sound asleep.
+              DoAi deploys custom CRM systems with AI voice agents, chatbots, and marketing automation. Answers your calls, qualifies your leads, books your diary while you&apos;re on the job, in a meeting, or asleep.
             </p>
 
             <div

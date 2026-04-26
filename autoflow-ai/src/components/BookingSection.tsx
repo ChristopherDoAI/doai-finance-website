@@ -14,7 +14,7 @@ export default function BookingSection() {
   const [calendlyReady, setCalendlyReady] = useState(false);
   const calendlyUrl =
     process.env.NEXT_PUBLIC_CALENDLY_URL ||
-    "https://calendly.com/roy-cheung-doaisystems/30min";
+    "https://calendly.com/christopher-do-doaisystems/30min";
 
   // Load Calendly script
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function BookingSection() {
     "Free, no-obligation 30-minute call",
     "We map exactly which automations will move the needle for your business",
     "You receive a custom build plan with honest pricing",
-    "No pushy sales - if it&apos;s not right for you, we&apos;ll tell you",
+    "No pushy sales. If it&apos;s not right for you we&apos;ll tell you",
   ];
 
   return (
@@ -63,9 +63,8 @@ export default function BookingSection() {
               <span className="text-primary">strategy call.</span>
             </h2>
             <p className="font-body text-text-secondary leading-relaxed mb-10 max-w-md">
-              In 30 minutes we&apos;ll work out exactly how much revenue you&apos;re
-              leaving on the table every week - and show you precisely how AI
-              automation fixes it.
+              We&apos;ll work out exactly how much revenue you&apos;re leaving on the
+              table every week, and show you precisely how AI automation fixes it.
             </p>
 
             <ul className="flex flex-col gap-4 mb-12">

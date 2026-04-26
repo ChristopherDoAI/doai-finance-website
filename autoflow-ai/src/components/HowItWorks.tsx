@@ -5,20 +5,20 @@ import { useEffect, useRef, useState } from "react";
 const steps = [
   {
     step: "01",
-    title: "We Learn Your Business",
-    body: "In a 45-minute strategy call, we map every scenario your phone and website handle. Your services, your prices, your objections, your tone of voice. This becomes the brain of your AI",
-    detail: "You talk, we build the knowledge base",
+    title: "Diagnosis Call",
+    body: "We sit down with you and map every bottleneck, every manual process, every channel handling high-volume traffic. Your services, prices, objections, tone of voice. This becomes the brain of your AI",
+    detail: "You talk, we listen",
   },
   {
     step: "02",
-    title: "We Build & Connect Your Agents",
-    body: "Within 1 week, your voice agent is live on your phone number and your chat agent is live on your website. Both are rigorously tested before they ever speak to a real customer",
-    detail: "Live in under one week",
+    title: "Proposal & Build",
+    body: "We come back with a custom plan covering exactly which automations will move the needle, then we build and connect them. Live in days, not months. Rigorously tested before they ever speak to a real customer",
+    detail: "Live faster than you'd expect",
   },
   {
     step: "03",
     title: "Leads Flow Into Your Pipeline",
-    body: "Every interaction - every call, every chat, every booking - is logged, scored, and pushed into your CRM automatically. You check in when you want. The system never sleeps",
+    body: "Every interaction, every call, every chat, every booking, is logged, scored, and pushed into your CRM automatically. You check in when you want. The system never sleeps",
     detail: "You focus on the work, we handle the rest",
   },
 ];
@@ -47,7 +47,7 @@ export default function HowItWorks() {
             The Process
           </span>
           <h2 className="font-display font-extrabold text-display-lg text-text-primary">
-            Live In 1 Week.
+            Live Fast.
             <br />
             <span className="text-text-secondary">Here&apos;s Exactly How.</span>
           </h2>

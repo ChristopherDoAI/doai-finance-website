@@ -9,6 +9,24 @@ interface ServiceData {
 }
 
 const SERVICE_ICONS: Record<string, { bg: string; iconColor: string; icon: JSX.Element }> = {
+  "DOAI CRM": {
+    bg: "bg-card-blue",
+    iconColor: "text-blue-700",
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+      </svg>
+    ),
+  },
+  "GoHighLevel Setup": {
+    bg: "bg-card-green",
+    iconColor: "text-green-700",
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
+      </svg>
+    ),
+  },
   "GoHighLevel CRM Setup": {
     bg: "bg-card-green",
     iconColor: "text-green-700",
@@ -18,12 +36,30 @@ const SERVICE_ICONS: Record<string, { bg: string; iconColor: string; icon: JSX.E
       </svg>
     ),
   },
+  "AI Chatbots (WhatsApp / SMS / Web)": {
+    bg: "bg-card-blue",
+    iconColor: "text-blue-700",
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+      </svg>
+    ),
+  },
   "Text AI (WhatsApp/SMS Bots)": {
     bg: "bg-card-blue",
     iconColor: "text-blue-700",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+      </svg>
+    ),
+  },
+  "Bespoke Process Automation": {
+    bg: "bg-card-green",
+    iconColor: "text-green-700",
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
       </svg>
     ),
   },
@@ -77,29 +113,34 @@ const DEFAULT_ICON = (
 // Fallback services in case Notion is unreachable
 const FALLBACK_SERVICES: ServiceData[] = [
   {
-    title: "GoHighLevel CRM Setup",
-    headline: "Your Sales Pipeline, Fully Automated",
-    body: "We set up and configure GoHighLevel as your all-in-one CRM - managing leads, automating follow-ups, and keeping your pipeline organised so nothing falls through the cracks",
+    title: "DOAI CRM",
+    headline: "Your All-in-One Business Operating System",
+    body: "Our custom CRM system that links AI voice agents, AI chatbots, marketing automation, and your full lead pipeline into one place. Built bespoke for how your business actually runs",
   },
   {
-    title: "Text AI (WhatsApp/SMS Bots)",
-    headline: "Instant Replies On The Channels Your Customers Use",
-    body: "AI-powered chatbots on WhatsApp and SMS that handle enquiries, qualify leads, and book appointments 24/7 - so you never miss a message, even outside office hours",
+    title: "GoHighLevel Setup",
+    headline: "Already On GoHighLevel? We'll Get It Running Properly",
+    body: "Full GoHighLevel configuration as your CRM and pipeline tool. Lead capture, follow-up automation, and pipeline management set up correctly so nothing falls through",
   },
   {
-    title: "Voice AI Agents",
+    title: "AI Voice Agents",
     headline: "Your Phone Answered, 24/7",
-    body: "Intelligent voice agents that pick up every inbound call in your business name. They answer questions, qualify leads, capture details, and book slots in your diary - all without you lifting a finger",
+    body: "Intelligent voice agents that pick up every inbound call in your business name. They answer questions, qualify leads, capture details, and book slots in your diary",
+  },
+  {
+    title: "AI Chatbots (WhatsApp / SMS / Web)",
+    headline: "Instant Replies On The Channels Your Customers Use",
+    body: "AI-powered chatbots on WhatsApp, SMS, and your website that handle enquiries, qualify leads, and book appointments around the clock, even outside office hours",
+  },
+  {
+    title: "Bespoke Process Automation",
+    headline: "Custom Builds For The Workflows Off-the-Shelf Tools Cant Touch",
+    body: "Where standard tools stop, we start. Custom integrations and end-to-end automations designed around your specific operations, from lead intake through to delivery",
   },
   {
     title: "AI Audits",
-    headline: "Find Out Where AI Can Save You Time And Money",
-    body: "A thorough review of your business operations to identify where AI and automation can eliminate manual work, reduce costs, and unlock growth - with a clear action plan to get started",
-  },
-  {
-    title: "Custom Projects",
-    headline: "Bespoke Automation, Built For Your Business",
-    body: "For businesses with unique workflows and requirements, we design and build custom AI automation solutions tailored to your specific needs - from integrations to full end-to-end systems",
+    headline: "Find Where AI Saves You Time And Money",
+    body: "A thorough review of your business operations to identify where AI and automation can eliminate manual work, reduce costs, and unlock growth, with a clear action plan to get started",
   },
 ];
 

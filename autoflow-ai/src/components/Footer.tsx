@@ -60,7 +60,7 @@ export default function Footer() {
               </span>
             </a>
             <p className="font-body text-sm text-text-muted leading-relaxed max-w-xs mb-8">
-              AI automation that answers calls, qualifies leads, and fills diaries - built for business owners who are too busy to miss an opportunity.
+              AI automation that answers calls, qualifies leads, and fills diaries. Built for business owners who are too busy to miss an opportunity.
             </p>
             {/* Socials */}
             {/* <div className="flex items-center gap-3">

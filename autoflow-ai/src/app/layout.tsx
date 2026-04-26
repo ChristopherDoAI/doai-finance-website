@@ -11,9 +11,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "DoAi — Stop Missing Calls. Start Winning More Work.",
+  title: "DOAI Systems",
   description:
-    "AI automation that answers your calls, qualifies your leads, and books your diary — 24 hours a day, 7 days a week. Built for business owners who are too busy to miss a single opportunity.",
+    "AI automation for UK SMEs and sole traders. Custom CRM systems, AI voice agents, chatbots, and process automation.",
   keywords: [
     "AI automation",
     "voice agent",
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
     "AI phone answering",
   ],
   openGraph: {
-    title: "DoAi — Stop Missing Calls. Start Winning More Work.",
+    title: "DOAI Systems",
     description:
-      "AI automation that answers your calls, qualifies your leads, and books your diary 24/7.",
+      "AI automation for UK SMEs and sole traders. Custom CRM systems, AI voice agents, chatbots, and process automation.",
     type: "website",
   },
 };
