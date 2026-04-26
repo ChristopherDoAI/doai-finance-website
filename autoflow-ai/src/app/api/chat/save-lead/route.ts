@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServiceClient } from "@/lib/supabase";
-import { createOrUpdateContact } from "@/lib/hubspot";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 interface ChatLeadRequest {
@@ -16,6 +14,9 @@ interface ChatLeadRequest {
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_BODY_SIZE = 100_000; // 100KB
+const CRM_INBOUND_URL =
+  process.env.NEXT_PUBLIC_CRM_INBOUND_URL ||
+  "https://crm.doaisystems.co.uk/api/leads/inbound";
 
 export async function POST(req: NextRequest) {
   // Rate limiting by IP
@@ -48,52 +49,46 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Valid email required" }, { status: 400 });
   }
 
-  const supabase = createServiceClient();
+  // Build transcript note (truncated to 5000 chars)
+  const transcriptText = (body.chatTranscript ?? [])
+    .map((m) => `${m.role}: ${m.content}`)
+    .join("\n")
+    .slice(0, 5000);
+
+  const note = [body.notes, transcriptText].filter(Boolean).join("\n\n---\n\n");
 
   try {
-    const { data, error } = await supabase
-      .from("leads")
-      .insert({
+    const crmRes = await fetch(CRM_INBOUND_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Origin: "https://doaisystems.co.uk",
+      },
+      body: JSON.stringify({
         name: body.name || "Chat visitor",
         email: body.email,
-        phone: body.phone || null,
-        source: "chat" as const,
-        chat_transcript: body.chatTranscript as unknown as Record<string, unknown>[],
-        notes: body.notes || null,
-        utm_source: body.utmSource || null,
-        utm_medium: body.utmMedium || null,
-        utm_campaign: body.utmCampaign || null,
-      })
-      .select("id")
-      .single();
+        phone: body.phone || undefined,
+        note: note || undefined,
+        source: "website_chat",
+        utm_source: body.utmSource || undefined,
+        utm_medium: body.utmMedium || undefined,
+        utm_campaign: body.utmCampaign || undefined,
+      }),
+    });
 
-    if (error) throw error;
-
-    // Push to HubSpot (non-blocking)
-    try {
-      const nameParts = (body.name || "Chat Visitor").split(" ");
-      const hubspotContactId = await createOrUpdateContact({
-        email: body.email,
-        firstname: nameParts[0] || "Chat",
-        lastname: nameParts.slice(1).join(" ") || "Visitor",
-        phone: body.phone,
-        lifecyclestage: "lead",
-        hs_lead_status: "NEW",
-      });
-
-      if (hubspotContactId && data?.id) {
-        await supabase
-          .from("leads")
-          .update({ hubspot_contact_id: hubspotContactId })
-          .eq("id", data.id);
-      }
-    } catch (hubspotErr) {
-      console.error("[Chat Lead] HubSpot push failed:", hubspotErr);
+    if (!crmRes.ok) {
+      const errBody = await crmRes.json().catch(() => ({}));
+      console.error("[Chat Lead] CRM inbound failed:", crmRes.status, errBody);
+      return NextResponse.json(
+        { error: "Failed to save lead" },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json({ success: true, leadId: data?.id });
+    const crmData = await crmRes.json() as { leadId?: string };
+    return NextResponse.json({ success: true, leadId: crmData.leadId ?? null });
   } catch (err) {
-    console.error("[Chat Lead] Save failed:", err);
+    console.error("[Chat Lead] CRM fetch error:", err);
     return NextResponse.json(
       { error: "Failed to save lead" },
       { status: 500 }
