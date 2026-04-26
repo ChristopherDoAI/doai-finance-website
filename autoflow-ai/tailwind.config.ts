@@ -46,21 +46,21 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ["var(--font-geist-sans)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
-        body: ["var(--font-geist-sans)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        display: ["var(--font-manrope)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        body: ["var(--font-manrope)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
       },
       fontSize: {
         "display-xl": [
           "clamp(2.75rem, 5.5vw, 4.5rem)",
-          { lineHeight: "1.08", letterSpacing: "-0.025em" },
+          { lineHeight: "1.08", letterSpacing: "-0.015em" },
         ],
         "display-lg": [
           "clamp(2rem, 4vw, 3rem)",
-          { lineHeight: "1.12", letterSpacing: "-0.02em" },
+          { lineHeight: "1.12", letterSpacing: "-0.012em" },
         ],
         "display-md": [
           "clamp(1.5rem, 3vw, 2.25rem)",
-          { lineHeight: "1.15", letterSpacing: "-0.015em" },
+          { lineHeight: "1.15", letterSpacing: "-0.01em" },
         ],
       },
       maxWidth: {

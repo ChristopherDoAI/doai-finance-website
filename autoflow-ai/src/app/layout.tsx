@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import ChatWidget from "@/components/ChatWidget";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  variable: "--font-manrope",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "DOAI Systems",
@@ -30,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={GeistSans.variable}>
+    <html lang="en" className={manrope.variable}>
       <body className="font-body bg-base text-text-primary antialiased">
         {children}
         <ChatWidget />

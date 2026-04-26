@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -sI \"https://images.unsplash.com/photo-1439853949212-36589f8d5c7b?auto=format&fit=crop&w=1920&q=80\")",
+      "Bash(curl -sI \"https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1920&q=80\")",
+      "Bash(curl -o /dev/null -s -w \"%{http_code}\" -I \"https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1920&q=80\")",
+      "Bash(curl -o /dev/null -s -w \"%{http_code}\" -I \"https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=1920&q=80\")",
+      "Bash(curl -o /dev/null -s -w \"%{http_code}\" -I \"https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80\")",
+      "Bash(curl -o /dev/null -s -w \"%{http_code}\" -I \"https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=1920&q=80\")",
+      "Bash(curl -o /dev/null -s -w \"%{http_code}\" -I \"https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1920&q=80\")",
+      "WebFetch(domain:unsplash.com)",
+      "Bash(ls \"C:\\\\Users\\\\chris\\\\DOAI Website\"/*.jpg \"C:\\\\Users\\\\chris\\\\DOAI Website\"/*.jpeg \"C:\\\\Users\\\\chris\\\\DOAI Website\"/*.png \"C:\\\\Users\\\\chris\\\\DOAI Website\"/*.webp)",
+      "Bash(ls \"C:/Users/chris/DOAI Website/\"*.jpg \"C:/Users/chris/DOAI Website/\"*.jpeg \"C:/Users/chris/DOAI Website/\"*.png \"C:/Users/chris/DOAI Website/\"*.webp)",
+      "WebSearch",
+      "Bash(gh auth:*)",
+      "Bash(where python:*)",
+      "Bash(where py:*)",
+      "Bash(where node:*)",
+      "Bash(where npx:*)",
+      "Bash(\"C:/Users/chris/AppData/Local/Programs/Python/Python312/python.exe\" --version)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(ls -la \"C:/Users/chris/DOAI Website/\"*.png)",
+      "Bash(\"C:/Users/chris/AppData/Local/Programs/Python/Python312/python.exe\" -c \"from PIL import Image; print\\(''Pillow available''\\)\")",
+      "Bash(\"C:/Users/chris/AppData/Local/Programs/Python/Python312/python.exe\" -m pip install Pillow --quiet)",
+      "Bash(\"C:/Users/chris/AppData/Local/Programs/Python/Python312/python.exe\" -c \":*)",
+      "Bash(git clone:*)"
+    ]
+  }
+}
