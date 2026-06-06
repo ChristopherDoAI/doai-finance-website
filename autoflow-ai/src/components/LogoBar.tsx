@@ -75,7 +75,7 @@ export default function LogoBar() {
   }, []);
 
   return (
-    <section className="py-16 border-y border-border">
+    <section className="py-16 bg-base border-y border-border">
       <div className="section-container">
         <p className="text-center text-sm font-semibold text-text-muted uppercase tracking-wider mb-3">
           Integrated Business Tools

@@ -2,16 +2,17 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const SERVICES_ENDPOINT =
+  process.env.NEXT_PUBLIC_CRM_SERVICES_URL ?? "https://crm.doaisystems.co.uk/api/services";
+
 interface ServiceData {
   title: string;
   headline: string;
   body: string;
 }
 
-const SERVICE_ICONS: Record<string, { bg: string; iconColor: string; icon: JSX.Element }> = {
+const SERVICE_ICONS: Record<string, { icon: JSX.Element }> = {
   "DOAI CRM": {
-    bg: "bg-card-blue",
-    iconColor: "text-blue-700",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
@@ -19,8 +20,6 @@ const SERVICE_ICONS: Record<string, { bg: string; iconColor: string; icon: JSX.E
     ),
   },
   "GoHighLevel Setup": {
-    bg: "bg-card-green",
-    iconColor: "text-green-700",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
@@ -28,8 +27,6 @@ const SERVICE_ICONS: Record<string, { bg: string; iconColor: string; icon: JSX.E
     ),
   },
   "GoHighLevel CRM Setup": {
-    bg: "bg-card-green",
-    iconColor: "text-green-700",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
@@ -37,8 +34,6 @@ const SERVICE_ICONS: Record<string, { bg: string; iconColor: string; icon: JSX.E
     ),
   },
   "AI Chatbots (WhatsApp / SMS / Web)": {
-    bg: "bg-card-blue",
-    iconColor: "text-blue-700",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
@@ -46,8 +41,6 @@ const SERVICE_ICONS: Record<string, { bg: string; iconColor: string; icon: JSX.E
     ),
   },
   "Text AI (WhatsApp/SMS Bots)": {
-    bg: "bg-card-blue",
-    iconColor: "text-blue-700",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
@@ -55,8 +48,6 @@ const SERVICE_ICONS: Record<string, { bg: string; iconColor: string; icon: JSX.E
     ),
   },
   "Bespoke Process Automation": {
-    bg: "bg-card-green",
-    iconColor: "text-green-700",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
@@ -64,8 +55,6 @@ const SERVICE_ICONS: Record<string, { bg: string; iconColor: string; icon: JSX.E
     ),
   },
   "Voice AI Agents": {
-    bg: "bg-card-pink",
-    iconColor: "text-pink-700",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
@@ -73,8 +62,6 @@ const SERVICE_ICONS: Record<string, { bg: string; iconColor: string; icon: JSX.E
     ),
   },
   "Voice AI Agents (Inbound/Outbound)": {
-    bg: "bg-card-pink",
-    iconColor: "text-pink-700",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
@@ -82,8 +69,6 @@ const SERVICE_ICONS: Record<string, { bg: string; iconColor: string; icon: JSX.E
     ),
   },
   "AI Audits": {
-    bg: "bg-card-orange",
-    iconColor: "text-orange-700",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
@@ -91,8 +76,6 @@ const SERVICE_ICONS: Record<string, { bg: string; iconColor: string; icon: JSX.E
     ),
   },
   "Custom Projects": {
-    bg: "bg-card-green",
-    iconColor: "text-green-700",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
@@ -101,16 +84,13 @@ const SERVICE_ICONS: Record<string, { bg: string; iconColor: string; icon: JSX.E
   },
 };
 
-const BG_CYCLE = ["bg-card-green", "bg-card-blue", "bg-card-pink", "bg-card-orange"];
-const COLOR_CYCLE = ["text-green-700", "text-blue-700", "text-pink-700", "text-orange-700"];
-
 const DEFAULT_ICON = (
   <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
   </svg>
 );
 
-// Fallback services in case Notion is unreachable
+// Fallback services used until CRM endpoint is live
 const FALLBACK_SERVICES: ServiceData[] = [
   {
     title: "DOAI CRM",
@@ -123,7 +103,7 @@ const FALLBACK_SERVICES: ServiceData[] = [
     body: "Full GoHighLevel configuration as your CRM and pipeline tool. Lead capture, follow-up automation, and pipeline management set up correctly so nothing falls through",
   },
   {
-    title: "AI Voice Agents",
+    title: "Voice AI Agents",
     headline: "Your Phone Answered, 24/7",
     body: "Intelligent voice agents that pick up every inbound call in your business name. They answer questions, qualify leads, capture details, and book slots in your diary",
   },
@@ -150,7 +130,7 @@ export default function Services() {
   const [services, setServices] = useState<ServiceData[]>(FALLBACK_SERVICES);
 
   useEffect(() => {
-    fetch("/api/notion/services")
+    fetch(SERVICES_ENDPOINT)
       .then((res) => res.json())
       .then((data) => {
         if (data.services && data.services.length > 0) {
@@ -172,14 +152,14 @@ export default function Services() {
   }, []);
 
   return (
-    <section id="services" className="py-section relative">
+    <section id="services" className="py-section relative bg-base">
       <div className="section-container">
         {/* Section header */}
         <div className="text-center mb-16">
           <span className="text-sm font-semibold text-primary uppercase tracking-wider mb-3 block">
             What We Build
           </span>
-          <h2 className="font-display font-bold text-display-lg text-text-primary">
+          <h2 className="font-display font-bold text-display-lg text-white">
             Transform Your Business Operations
           </h2>
         </div>
@@ -188,8 +168,6 @@ export default function Services() {
         <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {services.map((service, i) => {
             const iconData = SERVICE_ICONS[service.title];
-            const bg = iconData?.bg || BG_CYCLE[i % BG_CYCLE.length];
-            const iconColor = iconData?.iconColor || COLOR_CYCLE[i % COLOR_CYCLE.length];
             const icon = iconData?.icon || DEFAULT_ICON;
 
             const isLastOdd = services.length % 2 === 1 && i === services.length - 1;
@@ -197,7 +175,7 @@ export default function Services() {
             return (
               <div
                 key={service.title}
-                className={`${bg} rounded-3xl p-10 lg:p-12 transition-all duration-500 ${
+                className={`bg-surface rounded-3xl p-10 lg:p-12 border border-border hover:border-border-light hover:bg-card-hover transition-all duration-500 ${
                   isLastOdd ? "md:col-span-2 md:max-w-[calc(50%-0.75rem)] md:mx-auto" : ""
                 } ${
                   inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
@@ -207,7 +185,7 @@ export default function Services() {
                 }}
               >
                 {/* Icon */}
-                <div className={`w-12 h-12 rounded-xl bg-white/60 flex items-center justify-center ${iconColor} mb-6`}>
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6">
                   {icon}
                 </div>
 
@@ -215,7 +193,7 @@ export default function Services() {
                 <p className="text-xs font-semibold tracking-widest uppercase text-text-muted mb-2">
                   {service.title}
                 </p>
-                <h3 className="font-display font-bold text-xl text-text-primary mb-3 leading-snug">
+                <h3 className="font-display font-bold text-xl text-white mb-3 leading-snug">
                   {service.headline}
                 </h3>
                 <p className="font-body text-sm text-text-secondary leading-relaxed max-w-sm">

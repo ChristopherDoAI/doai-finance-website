@@ -95,9 +95,9 @@ export default function LeadForm({ onSuccess }: LeadFormProps) {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="rounded-xl border border-border bg-card p-5"
+      className="rounded-xl border border-border bg-surface p-5"
     >
-      <h2 className="font-display font-semibold text-base text-text-primary mb-4">
+      <h2 className="font-display font-semibold text-base text-white mb-4">
         Drop us your details
       </h2>
 
@@ -105,7 +105,7 @@ export default function LeadForm({ onSuccess }: LeadFormProps) {
         {/* Name */}
         <div>
           <label className="block text-xs font-medium text-text-secondary mb-1" htmlFor="meet-name">
-            Your name <span className="text-red-500">*</span>
+            Your name <span className="text-primary">*</span>
           </label>
           <input
             id="meet-name"
@@ -115,14 +115,14 @@ export default function LeadForm({ onSuccess }: LeadFormProps) {
             value={fields.name}
             onChange={set("name")}
             placeholder="Jane Smith"
-            className="w-full h-10 px-3 rounded-lg border border-border text-sm text-text-primary placeholder:text-text-muted bg-base focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition"
+            className="w-full h-10 px-3 rounded-lg border border-border text-sm text-white placeholder:text-text-muted bg-base focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition"
           />
         </div>
 
         {/* Email */}
         <div>
           <label className="block text-xs font-medium text-text-secondary mb-1" htmlFor="meet-email">
-            Email <span className="text-red-500">*</span>
+            Email <span className="text-primary">*</span>
           </label>
           <input
             id="meet-email"
@@ -132,7 +132,7 @@ export default function LeadForm({ onSuccess }: LeadFormProps) {
             value={fields.email}
             onChange={set("email")}
             placeholder="jane@example.com"
-            className="w-full h-10 px-3 rounded-lg border border-border text-sm text-text-primary placeholder:text-text-muted bg-base focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition"
+            className="w-full h-10 px-3 rounded-lg border border-border text-sm text-white placeholder:text-text-muted bg-base focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition"
           />
         </div>
 
@@ -148,7 +148,7 @@ export default function LeadForm({ onSuccess }: LeadFormProps) {
             value={fields.phone}
             onChange={set("phone")}
             placeholder="+44 7700 900000"
-            className="w-full h-10 px-3 rounded-lg border border-border text-sm text-text-primary placeholder:text-text-muted bg-base focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition"
+            className="w-full h-10 px-3 rounded-lg border border-border text-sm text-white placeholder:text-text-muted bg-base focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition"
           />
         </div>
 
@@ -164,7 +164,7 @@ export default function LeadForm({ onSuccess }: LeadFormProps) {
             value={fields.businessName}
             onChange={set("businessName")}
             placeholder="Acme Ltd"
-            className="w-full h-10 px-3 rounded-lg border border-border text-sm text-text-primary placeholder:text-text-muted bg-base focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition"
+            className="w-full h-10 px-3 rounded-lg border border-border text-sm text-white placeholder:text-text-muted bg-base focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition"
           />
         </div>
 
@@ -178,8 +178,8 @@ export default function LeadForm({ onSuccess }: LeadFormProps) {
             value={fields.note}
             onChange={set("note")}
             rows={3}
-            placeholder="What you are trying to automate, questions, anything…"
-            className="w-full px-3 py-2 rounded-lg border border-border text-sm text-text-primary placeholder:text-text-muted bg-base focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition resize-none"
+            placeholder="What you are trying to automate, questions, anything..."
+            className="w-full px-3 py-2 rounded-lg border border-border text-sm text-white placeholder:text-text-muted bg-base focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition resize-none"
           />
         </div>
       </div>
@@ -201,7 +201,7 @@ export default function LeadForm({ onSuccess }: LeadFormProps) {
       </div>
 
       {error && (
-        <p className="mt-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+        <p className="mt-3 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
           {error}
         </p>
       )}
@@ -209,7 +209,7 @@ export default function LeadForm({ onSuccess }: LeadFormProps) {
       <button
         type="submit"
         disabled={submitting}
-        className="mt-4 w-full h-11 rounded-lg bg-primary text-white font-display font-semibold text-sm hover:bg-primary-dark active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="mt-4 w-full h-11 rounded-lg bg-primary text-base font-display font-semibold text-sm hover:bg-primary-dark active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {submitting ? (
           <>
@@ -217,7 +217,7 @@ export default function LeadForm({ onSuccess }: LeadFormProps) {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            Sending…
+            Sending...
           </>
         ) : (
           "Send"

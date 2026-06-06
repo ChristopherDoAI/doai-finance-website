@@ -9,58 +9,59 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand — deep green (Sierra-inspired)
-        primary: "#0D654A",
-        "primary-dark": "#094D38",
-        "primary-light": "#14A06E",
+        // Brand — dark navy + gold
+        primary: "#FFDB46",
+        "primary-dark": "#E8C422",
+        "primary-light": "#FFE574",
 
         // Alias so ChatWidget keeps working untouched
-        accent: "#0D654A",
-        "accent-dark": "#094D38",
-        "accent-light": "#14A06E",
+        accent: "#FFDB46",
+        "accent-dark": "#E8C422",
+        "accent-light": "#FFE574",
 
         // Surfaces
-        base: "#FFFFFF",
-        surface: "#F7F7F5",
-        "surface-dark": "#111111",
-        card: "#FFFFFF",
-        "card-hover": "#F7F7F5",
+        base: "#1D334E",
+        surface: "#243B58",
+        "surface-dark": "#14253A",
+        card: "#243B58",
+        "card-hover": "#2A4566",
 
-        // Feature-card tints
-        "card-green": "#E8F5E9",
-        "card-blue": "#E3F2FD",
-        "card-pink": "#FCE4EC",
-        "card-orange": "#FFF3E0",
+        // Feature-card tints — uniform dark surface (icons provide differentiation)
+        "card-green": "#243B58",
+        "card-blue": "#243B58",
+        "card-pink": "#243B58",
+        "card-orange": "#243B58",
 
         // Borders
-        border: "#E8E8E5",
-        "border-light": "#D4D4D0",
+        border: "#2D4566",
+        "border-light": "#3A546E",
 
         // Text
         text: {
-          primary: "#111111",
-          secondary: "#555555",
-          muted: "#999999",
+          primary: "#FFFFFF",
+          secondary: "#C8D4E2",
+          muted: "#8A9CB0",
           "on-dark": "#FFFFFF",
-          "on-dark-muted": "#AAAAAA",
+          "on-dark-muted": "#8A9CB0",
+          "on-light": "#1D334E",
         },
       },
       fontFamily: {
-        display: ["var(--font-inter)", "system-ui", "sans-serif"],
-        body: ["var(--font-inter)", "system-ui", "sans-serif"],
+        display: ["var(--font-manrope)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        body: ["var(--font-manrope)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
       },
       fontSize: {
         "display-xl": [
           "clamp(2.75rem, 5.5vw, 4.5rem)",
-          { lineHeight: "1.08", letterSpacing: "-0.025em" },
+          { lineHeight: "1.08", letterSpacing: "-0.015em" },
         ],
         "display-lg": [
           "clamp(2rem, 4vw, 3rem)",
-          { lineHeight: "1.12", letterSpacing: "-0.02em" },
+          { lineHeight: "1.12", letterSpacing: "-0.012em" },
         ],
         "display-md": [
           "clamp(1.5rem, 3vw, 2.25rem)",
-          { lineHeight: "1.15", letterSpacing: "-0.015em" },
+          { lineHeight: "1.15", letterSpacing: "-0.01em" },
         ],
       },
       maxWidth: {
@@ -90,9 +91,9 @@ const config: Config = {
         },
       },
       boxShadow: {
-        card: "0 1px 3px rgba(0,0,0,0.04), 0 4px 20px rgba(0,0,0,0.03)",
-        "card-hover": "0 8px 30px rgba(0,0,0,0.08)",
-        elevated: "0 12px 40px rgba(0,0,0,0.1)",
+        card: "0 1px 3px rgba(0,0,0,0.2), 0 4px 20px rgba(0,0,0,0.15)",
+        "card-hover": "0 8px 30px rgba(0,0,0,0.3)",
+        elevated: "0 12px 40px rgba(0,0,0,0.4)",
       },
     },
   },
